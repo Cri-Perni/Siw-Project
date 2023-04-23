@@ -7,8 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
 
 @Entity
 public class Ordination {
@@ -17,17 +19,17 @@ public class Ordination {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private Integer numberTable;
+	private Integer tableNumber;
 	
 	private Float total;
 	
 	private Boolean isPaid;
 	
 	@OneToMany(mappedBy="order")
-	List<Item> items;
+	List<OrderItem> items;
 	
-	@ManyToOne
-	private Sale sale;
+	@OneToMany(mappedBy="order")
+	private List<Sale> sales;
 
 	public Long getId() {
 		return id;
@@ -38,10 +40,8 @@ public class Ordination {
 	}
 
 	public Integer getNumberTable() {
-		return numberTable;
+		return tableNumber;
 	}
-	
-	
 
 	public Boolean getIsPaid() {
 		return isPaid;
@@ -52,7 +52,7 @@ public class Ordination {
 	}
 
 	public void setNumberTable(Integer numberTable) {
-		this.numberTable = numberTable;
+		this.tableNumber = numberTable;
 	}
 
 	public Float getTotal() {
@@ -63,25 +63,25 @@ public class Ordination {
 		this.total = total;
 	}
 
-	public List<Item> getItems() {
+	public List<OrderItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<Item> items) {
+	public void setItems(List<OrderItem> items) {
 		this.items = items;
 	}
 
-	public Sale getSale() {
-		return sale;
+	public List<Sale> getSale() {
+		return sales;
 	}
 
-	public void setSale(Sale sale) {
-		this.sale = sale;
+	public void setSale(List<Sale> sales) {
+		this.sales = sales;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, items, numberTable, sale, total);
+		return Objects.hash(id, items, tableNumber, sales, total);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class Ordination {
 			return false;
 		Ordination other = (Ordination) obj;
 		return Objects.equals(id, other.id) && Objects.equals(items, other.items)
-				&& Objects.equals(numberTable, other.numberTable) && Objects.equals(sale, other.sale)
+				&& Objects.equals(tableNumber, other.tableNumber) && Objects.equals(sales, other.sales)
 				&& Objects.equals(total, other.total);
 	}
 	

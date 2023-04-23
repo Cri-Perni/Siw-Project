@@ -1,12 +1,15 @@
 package it.uniroma3.siw.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -22,8 +25,8 @@ public class Item {
 	@NotNull
 	private Float price;
 	
-	@ManyToOne
-	private Ordination order;
+	@OneToMany(mappedBy="item")
+	List<OrderItem> order;
 
 	public Long getId() {
 		return id;
@@ -49,12 +52,11 @@ public class Item {
 		this.price = price;
 	}
 
-	
-	public Ordination getOrder() {
+	public List<OrderItem> getOrder() {
 		return order;
 	}
 
-	public void setOrder(Ordination order) {
+	public void setOrder(List<OrderItem> order) {
 		this.order = order;
 	}
 
