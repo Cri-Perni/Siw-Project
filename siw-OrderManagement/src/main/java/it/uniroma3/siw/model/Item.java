@@ -25,6 +25,8 @@ public class Item {
 	@NotNull
 	private Float price;
 	
+	private String urlImage;
+	
 	@OneToMany(mappedBy="item")
 	List<OrderItem> order;
 
@@ -60,9 +62,17 @@ public class Item {
 		this.order = order;
 	}
 
+	public String getUrlImage() {
+		return urlImage;
+	}
+
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, price);
+		return Objects.hash(description, id, order, price, urlImage);
 	}
 
 	@Override
@@ -74,8 +84,14 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		return Objects.equals(description, other.description) && Objects.equals(price, other.price);
+		return Objects.equals(description, other.description) && Objects.equals(id, other.id)
+				&& Objects.equals(order, other.order) && Objects.equals(price, other.price)
+				&& Objects.equals(urlImage, other.urlImage);
 	}
+
+	
+
+	
 	
 	
 	
