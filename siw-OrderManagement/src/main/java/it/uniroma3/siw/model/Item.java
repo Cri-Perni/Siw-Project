@@ -29,6 +29,8 @@ public class Item {
 	
 	@OneToMany(mappedBy="item")
 	List<OrderItem> order;
+	
+	private String urlImage;
 
 	public Long getId() {
 		return id;

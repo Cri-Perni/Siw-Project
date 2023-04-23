@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Nuova Portata</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header style="display: flex; justify-content: center;">
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
+    </header>
+
+    <main>
+        <div class="evenly-spacer">
+            <div class="long box">
+                <div class="column">
+                    <img class="whide hoverable" th:src="@{/svgs/food.svg}">
+                </div>
+                
+                <form method="POST" th:action="@{/newItem}" th:object="${item}" class="column whide">
+                <h2 class="title">Nuova Portata</h2>
+            
+                <div class="input-content">
+                    <input type="text" placeholder="Nome Portata" class="form-input" th:field="${item.description}">
+                    <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                
+                    <input type="text" placeholder="Prezzo" class="form-input" th:field="${item.price}">
+                    <span class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+                
+                    <input type="url" placeholder="URL Immagine" class="form-input" th:field="${item.urlImage}">
+               </div>
+               
+                <input type="submit" class="submit">
+                
+                <div th:if="${#fields.hasGlobalErrors()}">
+                   <h3 class="error" th:each="err:${#fields.globalErrors()}" th:text="${err}">Errore</h3>
+                </div>
+                </form>
+        
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

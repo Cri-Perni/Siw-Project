@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Admin Menu</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header>
+        <a th:href="@{/index}" class="title"> SIW Order Management</a>
+        <nav>
+            <div class="dropdown">
+                <p>Portate</p>
+                <div class="dropdown-content">
+                    <a th:href="@{/items}">Visualizza Tutti</a>
+                    <a th:href="@{/formNewItem}">Nuova Portata</a>
+                    <a href="#">Rimuovi Portata</a>
+                    <a href="#">Gestisci Portate</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <p>Staff</p>
+                <div class="dropdown-content">
+                    <a th:href="@{/staff}">Visualizza Tutti</a>
+                    <a th:href="@{/formNewStaff}">Nuovo Membro</a>
+                    <a href="#">Rimuovi Membro</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <p>Obiettivi</p>
+                <div class="dropdown-content">
+                    <a href="#">Nuovo Obiettivo Settimanale</a>
+                    <a href="#">Nuovo Obiettivo Mensile</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main style="margin-top: 1%;">
+        <div class="evenly-spacer">
+
+            <div class="column">
+                <h1 class="title">Obiettivo Settimanale: 50/100</h1>
+                <h1 class="title">Obiettivo Mensile: 50/100</h1>
+            </div>
+
+            <div class="column">
+                <progress max="100" value="50"></progress>
+                <progress max="100" value="50"></progress>
+            </div>
+
+            <div class="column">
+                <button>Cambia Obiettivo</button>
+                <button>Cambia Obiettivo</button>
+            </div>
+
+        </div>
+
+        <div class="evenly-spacer" style="margin-top: 1%;">
+            <div class="column">
+                <a th:href="@{/formNewItem}" class="link">
+                    <div class="small box hoverable">
+                        <h2>Nuovo Prodotto</h2>
+                        <img th:src="@{/svgs/newFood.svg}" class="mini">
+                    </div>
+                </a>
+
+                <a href="#" class="link">
+                    <div class="small box hoverable">
+                        <h2>Rimuovi Prodotto</h2>
+                        <img th:src="@{/svgs/removeFood.svg}" class="mini">
+                    </div>
+                </a>
+            </div>
+
+            <div class="column">
+                <h2>I Più Venduti</h2>
+                <div class="column large">
+
+                    <div class="evenly-spacer">
+                        <div class="mini box">
+                            <img src="">
+                        </div>
+                        <div class="column">
+                            <h2>Prodotto N1</h2>
+                        </div>
+                    </div>
+
+                    <div class="evenly-spacer">
+                        <div class="mini box">
+                            <img src="">
+                        </div>
+                        <div class="column">
+                            <h2>Prodotto N2</h2>
+                        </div>
+                    </div>
+
+                    <div class="evenly-spacer">
+                        <div class="mini box">
+                            <img src="">
+                        </div>
+                        <div class="column">
+                            <h2>Prodotto N3</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="mini box">
+                    <h2>N. Vendite</h2>
+                    <h2>10</h2>
+                </div>
+
+                <a href="@{/formNewStaff}" class="link">
+                    <div class="mini box hoverable">
+                        <h3>Nuovo Membro</h3>
+                        <img th:src="@{/svgs/newMember.svg}" class="nano">
+                    </div>
+                </a>
+
+                <a href="#" class="link">
+                    <div class="mini box hoverable">
+                        <h3>Rimuovi Membro</h3>
+                        <img th:src="@{/svgs/removeMember.svg}" class="nano">
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>
