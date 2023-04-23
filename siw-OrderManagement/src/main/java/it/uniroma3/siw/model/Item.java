@@ -27,6 +27,8 @@ public class Item {
 	
 	@OneToMany(mappedBy="item")
 	List<OrderItem> order;
+	
+	private String urlImage;
 
 	public Long getId() {
 		return id;
@@ -58,6 +60,14 @@ public class Item {
 
 	public void setOrder(List<OrderItem> order) {
 		this.order = order;
+	}
+
+	public String getUrlImage() {
+		return urlImage;
+	}
+
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
 	}
 
 	@Override
