@@ -28,8 +28,8 @@ public class Ordination {
 	@OneToMany(mappedBy="order")
 	List<OrderItem> items;
 	
-	@OneToMany(mappedBy="order")
-	private List<Sale> sales;
+	@ManyToOne
+	private Sale sale;
 
 	public Long getId() {
 		return id;
@@ -71,17 +71,17 @@ public class Ordination {
 		this.items = items;
 	}
 
-	public List<Sale> getSale() {
-		return sales;
+	public Sale getSale() {
+		return sale;
 	}
 
-	public void setSale(List<Sale> sales) {
-		this.sales = sales;
+	public void setSale(Sale sale) {
+		this.sale = sale;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, items, tableNumber, sales, total);
+		return Objects.hash(id, items, tableNumber, sale, total);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class Ordination {
 			return false;
 		Ordination other = (Ordination) obj;
 		return Objects.equals(id, other.id) && Objects.equals(items, other.items)
-				&& Objects.equals(tableNumber, other.tableNumber) && Objects.equals(sales, other.sales)
+				&& Objects.equals(tableNumber, other.tableNumber) && Objects.equals(sale, other.sale)
 				&& Objects.equals(total, other.total);
 	}
 	

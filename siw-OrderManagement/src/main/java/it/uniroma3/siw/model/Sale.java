@@ -27,8 +27,8 @@ public class Sale {
 	
 	private Float Total;
 	
-	@ManyToOne
-	private Ordination order;
+	@OneToMany(mappedBy="sale")
+	private List<Ordination> orders;
 
 	
 	
@@ -64,17 +64,17 @@ public class Sale {
 		Total = total;
 	}
 
-	public Ordination getOrders() {
-		return order;
+	public List<Ordination> getOrders() {
+		return orders;
 	}
 
-	public void setOrders(Ordination order) {
-		this.order = order;
+	public void setOrders(List<Ordination> orders) {
+		this.orders = orders;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Total, date, id, order, time);
+		return Objects.hash(Total, date, id, orders, time);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class Sale {
 			return false;
 		Sale other = (Sale) obj;
 		return Objects.equals(Total, other.Total) && Objects.equals(date, other.date) && Objects.equals(id, other.id)
-				&& Objects.equals(order, other.order) && Objects.equals(time, other.time);
+				&& Objects.equals(orders, other.orders) && Objects.equals(time, other.time);
 	}
 	
 
