@@ -36,17 +36,6 @@ public class ItemController {
 		  return "notFound.html";
 	  }
 	  
-	  @GetMapping("/staffPage")
-	  public String toStaffPage() {
-		  return "waiterMenu.html";
-	  }
-	  
-	  @GetMapping("/managerPage")
-	  public String toManagerPage() {
-		  return "adminMenu.html";
-	  }
-	  
-	  
 	  ///
 	  @GetMapping("/formNewItem")
 	  public String formNewItem(Model model){
@@ -67,6 +56,21 @@ public class ItemController {
 	    {
 	      return "formNewItem.html";
 	    }
+	  }
+	  
+	  @GetMapping("/removeItemPage")
+	  public String toRemoveItemPage(Model model) {
+		  model.addAttribute("items", this.itemRepository.findAll());
+		  return "removeItems.html";
+	  }
+	  
+	  @GetMapping("/removeItem/{id}")
+	  public String removeItem(@PathVariable("id") Long id, Model model) {
+		  Item item= this.itemRepository.findById(id).get();
+		  this.itemRepository.delete(item);
+		  
+		  model.addAttribute("items", this.itemRepository.findAll());
+		  return "removeItems.html";
 	  }
 	  
 	  @GetMapping("/items")

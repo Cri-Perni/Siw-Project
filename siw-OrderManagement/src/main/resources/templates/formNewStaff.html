@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIW Order -Nuovo Membro Staff</title>
-    <link rel="stylesheet" href="stile.css">
+    <link rel="stylesheet" th:href="@{/stile.css}">
 </head>
 
 <body class="background">
 
     <header style="display: flex; justify-content: center;">
-        <a href="index.html" class="title">SIW Order Management</a>
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
     </header>
 
     <main>
@@ -21,16 +21,25 @@
                 <div class="column">
                     <img class="whide hoverable" src="svgs/chef.svg">
                 </div>
-                <form action="" class="column whide">
-                    <h2 class="title">Nuovo Membro Staff</h2>
-                    <div class="input-content">
-                        <input type="text" placeholder="Nome" class="form-input">
-                        <input type="text" placeholder="Cognome" class="form-input">
-                        <input type="text" placeholder="URL Immagine" class="form-input">
-                    </div>
-                    <br>
-                    <input type="submit" class="submit">
-                    <h3 class="error">Errore</h3>
+                
+                <form method="POST" th:action="@{/newStaff}" th:object="${staff}" class="column whide">
+                <h2 class="title">Nuovo Membro Staff</h2>
+            
+                <div class="input-content">
+                    <input type="text" placeholder="Nome" class="form-input" th:field="${staff.name}">
+                    <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                
+                    <input type="text" placeholder="Cognome" class="form-input" th:field="${staff.surname}">
+                    <span class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+                
+                    <input type="url" placeholder="URL Immagine" class="form-input" th:field="${staff.urlImage}">
+               </div>
+               
+                <input type="submit" class="submit">
+                
+                <div th:if="${#fields.hasGlobalErrors()}">
+                   <h3 class="error" th:each="err:${#fields.globalErrors()}" th:text="${err}">Errore</h3>
+                </div>
                 </form>
             </div>
         </div>

@@ -19,7 +19,7 @@
                 <div class="dropdown-content">
                     <a th:href="@{/items}">Visualizza Tutti</a>
                     <a th:href="@{/formNewItem}">Nuova Portata</a>
-                    <a href="#">Rimuovi Portata</a>
+                    <a th:href="@{/removeItemPage}">Rimuovi Portata</a>
                     <a href="#">Gestisci Portate</a>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <div class="dropdown-content">
                     <a th:href="@{/staff}">Visualizza Tutti</a>
                     <a th:href="@{/formNewStaff}">Nuovo Membro</a>
-                    <a href="#">Rimuovi Membro</a>
+                    <a th:href="@{/removeStaffPage}">Rimuovi Membro</a>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
                     </div>
                 </a>
 
-                <a href="#" class="link">
+                <a th:href="@{/removeItemPage}" class="link">
                     <div class="small box hoverable">
                         <h2>Rimuovi Prodotto</h2>
                         <img th:src="@{/svgs/removeFood.svg}" class="mini">
@@ -119,14 +119,14 @@
                     <h2>10</h2>
                 </div>
 
-                <a href="@{/formNewStaff}" class="link">
+                <a th:href="@{/formNewStaff}" class="link">
                     <div class="mini box hoverable">
                         <h3>Nuovo Membro</h3>
                         <img th:src="@{/svgs/newMember.svg}" class="nano">
                     </div>
                 </a>
 
-                <a href="#" class="link">
+                <a th:href="@{/removeStaffPage}" class="link">
                     <div class="mini box hoverable">
                         <h3>Rimuovi Membro</h3>
                         <img th:src="@{/svgs/removeMember.svg}" class="nano">
