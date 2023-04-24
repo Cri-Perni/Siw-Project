@@ -27,7 +27,7 @@ public class Sale {
 	
 	private Float Total;
 	
-	@OneToMany
+	@OneToMany(mappedBy="sale")
 	private List<Ordination> orders;
 
 	
