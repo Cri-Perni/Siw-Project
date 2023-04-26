@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Tutte le Portate</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header style="display: flex; justify-content: center;">
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
+    </header>
+
+    <main style="margin-top: 1%;">
+        <div class="evenly-spacer">
+            <div class="column">
+                <a th:each="item: ${items}" th:href="@{'/addItemToOrder/'+${order.id}+'/'+${item.id}}" class="link">
+                    <div class="hoverable small box lateral-margin">
+                        <img th:src="${item.urlImage}" class="nano">
+                        <h2 th:text="${item.description} + ' ' + ${item.price}">Nome Portata</h2>
+                    </div>
+                </a>
+            </div>
+
+            <div class="column">
+                <div th:each="orderLine: ${orderLines}">
+                    <h2 th:text="${orderline.item.description} + ' ' + ${orderLine.quantity}">Nome Portata</h2>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

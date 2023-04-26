@@ -12,12 +12,12 @@
 <body class="background">
 
     <header style="display: flex; justify-content: center;">
-        <a href="index.html" class="title">SIW Order Management</a>
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
     </header>
 
     <main>
         <div class="evenly-spacer">
-            <a href="#" class="link">
+            <a th:href="@{/formNewOrder}" class="link">
                 <div class="box hoverable">
                     <h2 class="title">Nuova Ordinazione</h2>
                     <img src="svgs/food.svg" class="whide">

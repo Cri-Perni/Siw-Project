@@ -89,12 +89,6 @@ public class Item {
 				&& Objects.equals(urlImage, other.urlImage);
 	}
 
-	
 
-	
-	
-	
-	
-	
 
 }

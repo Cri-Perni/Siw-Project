@@ -21,6 +21,14 @@ public class OrderItem {
     private Item item;
     
     private int quantity;
+    
+
+	public OrderItem(Ordination order, Item item, int quantity) {
+		super();
+		this.order = order;
+		this.item = item;
+		this.quantity = quantity;
+	}
 
 	public Long getId() {
 		return id;
@@ -53,10 +61,14 @@ public class OrderItem {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public void updateQuantity() {
+		this.quantity++;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, item, order, quantity);
+		return Objects.hash(id,item, order);
 	}
 
 	@Override
@@ -68,9 +80,12 @@ public class OrderItem {
 		if (getClass() != obj.getClass())
 			return false;
 		OrderItem other = (OrderItem) obj;
-		return Objects.equals(id, other.id) && Objects.equals(item, other.item) && Objects.equals(order, other.order)
-				&& quantity == other.quantity;
+		return Objects.equals(item, other.item) && Objects.equals(order, other.order);
 	}
+	
+	
+
+	
     
     
 }
