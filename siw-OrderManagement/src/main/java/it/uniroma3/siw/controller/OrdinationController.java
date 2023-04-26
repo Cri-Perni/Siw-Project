@@ -11,33 +11,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import it.uniroma3.siw.model.OrderItem;
 import it.uniroma3.siw.model.Ordination;
 import it.uniroma3.siw.repository.ItemRepository;
-import it.uniroma3.siw.repository.OrderItemRepository;
 import it.uniroma3.siw.repository.OrdinationRepository;
 
 
 @Controller
 public class OrdinationController {
 	
-	@Autowired OrderItemRepository orderItemRepository;
 	@Autowired ItemRepository itemRepository;
 	@Autowired OrdinationRepository ordinationRepository;
 	
-	
-	
 	@GetMapping("/formNewOrder")
 	public String formNewOrder(Model model) {
+		Ordination order= new Ordination();
 		
-		model.addAttribute("order", new Ordination());
+		this.ordinationRepository.save(order);
+		
+		model.addAttribute("order", order);
 		model.addAttribute("items", this.itemRepository.findAll());
 		return "formNewOrder.html";
-		
 	}
 	
 	@GetMapping("/addItemToOrder/{orderid}/{itemid}")
 	public String addItemToOrder(@PathVariable("orderid") Long orderid,@PathVariable("itemid") Long itemid, Model model) {
 		
 		Ordination order = this.ordinationRepository.findById(orderid).get();
-		OrderItem orderItem = new OrderItem(order,this.itemRepository.findById(itemid).get(),1);
+		OrderItem orderItem = new OrderItem();
+		orderItem.setAll(order, this.itemRepository.findById(itemid).get(), 1);
 		
 		List<OrderItem> orderLines = (List<OrderItem>) order.getItems();
 		
@@ -50,7 +49,8 @@ public class OrdinationController {
 		
 		order.setItems(orderLines);
 		this.ordinationRepository.save(order);
-		model.addAttribute("orderlines", orderLines);
+		
+		model.addAttribute("orderLines", orderLines);
 		model.addAttribute("items", this.itemRepository.findAll());
 		
 		return "formNewOrder.html";

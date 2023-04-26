@@ -21,14 +21,6 @@ public class OrderItem {
     private Item item;
     
     private int quantity;
-    
-
-	public OrderItem(Ordination order, Item item, int quantity) {
-		super();
-		this.order = order;
-		this.item = item;
-		this.quantity = quantity;
-	}
 
 	public Long getId() {
 		return id;
@@ -64,6 +56,12 @@ public class OrderItem {
 	
 	public void updateQuantity() {
 		this.quantity++;
+	}
+	
+	public void setAll(Ordination order, Item item, int quantity) {
+		this.order = order;
+		this.item = item;
+		this.quantity = quantity;
 	}
 
 	@Override
