@@ -133,6 +133,11 @@ img{
     width: 500px;
 }
 
+.tall{
+    height: 1000px;
+    width: 500px;
+}
+
 .whide{
     height: 450px;
     width: 450px;

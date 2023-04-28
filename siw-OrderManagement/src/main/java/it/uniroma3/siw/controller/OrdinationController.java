@@ -42,8 +42,6 @@ public class OrdinationController {
 			item.getOrder().removeAll(order.getItems());
 		}
 
-
-
 		this.orderItemRepository.deleteAll(this.ordinationRepository.findById(id).get().getItems());
         this.ordinationRepository.deleteById(id);
         return "waiterMenu.html";
@@ -52,6 +50,9 @@ public class OrdinationController {
 	@GetMapping("/formNewOrder")
 	public String formNewOrder(Model model) {
 		Ordination order = new Ordination();
+		
+		order.setTotal((float)0);
+		order.setIsPaid(false);
 
 		this.ordinationRepository.save(order);
 
@@ -79,7 +80,15 @@ public class OrdinationController {
             order.getItems().add(orderItem);
             item.getOrder().add(orderItem);
         }
+        
+        //calcolo e aggiornamento del totale
+        float total= 0;
 
+        for(OrderItem orderLine: order.getItems()){
+            total= total + orderLine.getQuantity() * orderLine.getItem().getPrice();
+        }
+
+        order.setTotal(total);
         // rendi persistente l'oggetto OrderItem e le modifiche alle liste di Order e Item
         this.orderItemRepository.save(orderItem);
         this.ordinationRepository.save(order);
