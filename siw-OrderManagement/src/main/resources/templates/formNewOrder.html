@@ -27,10 +27,15 @@
             </div>
 
             <div class="column">
-                <div th:each="orderLine: ${orderLines}">
-                    <h2 th:text="${orderline.item.description} + ' ' + ${orderLine.quantity}">Nome Portata</h2>
+                <div th:each="orderLine: ${order.items}">
+                    <h2 th:text="${orderLine.item.description} + ' ' + ${orderLine.quantity}">Nome Portata</h2>
                 </div>
             </div>
+        </div>
+        <div class="evenly-spacer" style="margin-top: 1%;">
+            <a th:href="@{'/cancelOrder/'+ ${order.id}}" class="link">
+                <button>Annulla Ordine</button>
+            </a>
         </div>
     </main>
 
