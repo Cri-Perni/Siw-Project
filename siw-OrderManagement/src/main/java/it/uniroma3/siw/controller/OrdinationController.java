@@ -18,58 +18,56 @@ import it.uniroma3.siw.repository.OrderItemRepository;
 import it.uniroma3.siw.repository.OrdinationRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class OrdinationController {
 
-	@Autowired
-	ItemRepository itemRepository;
-	@Autowired
-	OrdinationRepository ordinationRepository;
-	@Autowired
-	OrderItemRepository orderItemRepository;
+    @Autowired
+    ItemRepository itemRepository;
+    @Autowired
+    OrdinationRepository ordinationRepository;
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
-
-	@GetMapping("/cancelOrder/{id}")
+    @GetMapping("/cancelOrder/{id}")
     public String cancelOrder(@PathVariable("id") Long id, Model model) {
-		
-		Ordination order = this.ordinationRepository.findById(id).get();
-		List<Item> items = new ArrayList();
-		
-		
-		//scollega le righe di ordine dalle portate
-		for(OrderItem orderItem : order.getItems()){
-			items.add(orderItem.getItem());
-			orderItem.setItem(null);
-		}
-		
-		//scollega le portate dalle righe di ordine
-		for(Item item : items){
-			item.getOrder().removeAll(order.getItems());
-		}
-		
-		//rimuovi le righe di ordine e infine l'ordine
-		this.orderItemRepository.deleteAll(this.ordinationRepository.findById(id).get().getItems());
+
+        Ordination order = this.ordinationRepository.findById(id).get();
+        List<Item> items = new ArrayList();
+
+        // scollega le righe di ordine dalle portate
+        for (OrderItem orderItem : order.getItems()) {
+            items.add(orderItem.getItem());
+            orderItem.setItem(null);
+        }
+
+        // scollega le portate dalle righe di ordine
+        for (Item item : items) {
+            item.getOrder().removeAll(order.getItems());
+        }
+
+        // rimuovi le righe di ordine e infine l'ordine
+        this.orderItemRepository.deleteAll(this.ordinationRepository.findById(id).get().getItems());
         this.ordinationRepository.deleteById(id);
         return "waiterMenu.html";
     }
 
-	@GetMapping("/formNewOrder")
-	public String formNewOrder(Model model) {
-		Ordination order = new Ordination();
-		
-		order.setTotal((float)0);
-		order.setIsPaid(false);
+    @GetMapping("/formNewOrder")
+    public String formNewOrder(Model model) {
+        Ordination order = new Ordination();
 
-		this.ordinationRepository.save(order);
+        order.setTotal((float) 0);
+        order.setIsPaid(false);
 
-		model.addAttribute("order", order);
-		model.addAttribute("items", this.itemRepository.findAll());
-		return "formNewOrder.html";
-	}
+        this.ordinationRepository.save(order);
 
-	@GetMapping("/addItemToOrder/{orderid}/{itemid}")
+        model.addAttribute("order", order);
+        model.addAttribute("items", this.itemRepository.findAll());
+        return "formNewOrder.html";
+    }
+
+    @GetMapping("/addItemToOrder/{orderid}/{itemid}")
     public String addItemToOrder(@PathVariable("orderid") Long orderid, @PathVariable("itemid") Long itemid,
             Model model) {
 
@@ -82,18 +80,18 @@ public class OrdinationController {
             // se esiste, aumenta la quantità di 1
             orderItem.updateQuantity();
         } else {
-            // se non esiste, crea una nuova OrderItem e aggiungila alle liste di Order e Item
+            // se non esiste, crea una nuova OrderItem e aggiungila alle liste di Order eItem
             orderItem = new OrderItem();
             orderItem.setAll(order, item, 1);
             order.getItems().add(orderItem);
             item.getOrder().add(orderItem);
         }
-        
-        //calcolo e aggiornamento del totale
-        float total= 0;
 
-        for(OrderItem orderLine: order.getItems()){
-            total= total + orderLine.getQuantity() * orderLine.getItem().getPrice();
+        // calcolo e aggiornamento del totale
+        float total = 0;
+
+        for (OrderItem orderLine : order.getItems()) {
+            total = total + orderLine.getQuantity() * orderLine.getItem().getPrice();
         }
 
         order.setTotal(total);
@@ -109,10 +107,54 @@ public class OrdinationController {
         return "formNewOrder.html";
     }
 
-    @PostMapping("/order")
-    public String newOrder(@ModelAttribute Ordination order, Model model) {
+    @PostMapping("/order/{id}")
+    public String newOrder(@PathVariable Long id, @ModelAttribute Ordination neworder, Model model) {
+        //ottieni l'ordine a cui aggiungere il numero del tavolo
+        Ordination order= this.ordinationRepository.findById(id).get();
+        //aggiungi il valore tableNumber
+        order.setTableNumber(neworder.getTableNumber());
+        //rendi le modifiche persistenti
         this.ordinationRepository.save(order);
+        //aggiungi l'ordine aggiornato alla vista
+        model.addAttribute("order", order);
         return "order.html";
     }
-    
+
+    @GetMapping("/formPayment")
+    public String toFormPayment() {
+        return "formPayment.html";
+    }
+
+    @GetMapping("/searchOrders")
+    public String searchOrders(Model model, @RequestParam Integer table) {
+        model.addAttribute("orders", this.ordinationRepository.findByTableNumberAndIsPaid(table, true));
+        return "formPayment.html";
+    }
+
+    @GetMapping("/toPayment/{id}")
+    public String toPayment(@PathVariable("id") Integer id, Model model) {
+        List<Ordination> orders = this.ordinationRepository.findByTableNumberAndIsPaid(id, false);
+        List<OrderItem> orderLines = new ArrayList<OrderItem>();
+        float total= 0;
+
+        for (Ordination order : orders) {
+            total= total+order.getTotal();
+            for (OrderItem orderLine : order.getItems()) {
+                orderLines.add(orderLine);
+            }
+        }
+
+        model.addAttribute("tableNumber", id);
+        model.addAttribute("total", total);
+        model.addAttribute("orderLines", orderLines);
+        return "payOrder.html";
+    }
+
+    @GetMapping("/payOrder/{id}")
+    public String toPayment(@PathVariable("id") Integer id) {
+        for(Ordination order: this.ordinationRepository.findByTableNumberAndIsPaid(id, false)){
+            order.setIsPaid(true);
+        }
+        return "waiterMenu.html";
+    }
 }

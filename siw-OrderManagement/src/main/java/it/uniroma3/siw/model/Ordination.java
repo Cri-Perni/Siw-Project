@@ -20,7 +20,7 @@ public class Ordination {
 	private Long id;
 	
 	private Integer tableNumber;
-	
+
 	private Float total;
 	
 	private Boolean isPaid;
@@ -39,20 +39,12 @@ public class Ordination {
 		this.id = id;
 	}
 
-	public Integer getNumberTable() {
-		return tableNumber;
-	}
-
 	public Boolean getIsPaid() {
 		return isPaid;
 	}
 
 	public void setIsPaid(Boolean isPaid) {
 		this.isPaid = isPaid;
-	}
-
-	public void setNumberTable(Integer numberTable) {
-		this.tableNumber = numberTable;
 	}
 
 	public Float getTotal() {
@@ -77,6 +69,14 @@ public class Ordination {
 
 	public void setSale(Sale sale) {
 		this.sale = sale;
+	}
+
+	public Integer getTableNumber() {
+		return tableNumber;
+	}
+
+	public void setTableNumber(Integer tableNumber) {
+		this.tableNumber = tableNumber;
 	}
 
 	@Override

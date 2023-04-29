@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIW Order -Tutte le Portate</title>
+    <title>SIW Order -Nuovo Ordine</title>
     <link rel="stylesheet" th:href="@{/stile.css}">
 </head>
 
@@ -18,12 +18,7 @@
     <main style="margin-top: 1%;">
 
         <div class="evenly-spacer">
-
             <div class="column">
-                <form method="POST" th:action="@{/order}" th:object="${order}">
-                    <input required type="text" placeholder="N. Tavolo" class="form-input" /*th:field="${order.tableNumber}"*/>
-                </form>
-
                 <div style="margin-top: 2%; overflow-y: scroll;">
                     <div class="wrap item-container">
                         <a th:each="item: ${items}" th:href="@{'/addItemToOrder/'+${order.id}+'/'+${item.id}}"
@@ -51,10 +46,15 @@
                 </div>
 
                 <div class="evenly-spacer">
-                    <a th:href="@{'/cancelOrder/'+ ${order.id}}" class="link">
+                    <a th:href="@{'/cancelOrder/'+ ${order.id}}">
                         <button>Annulla Ordine</button>
                     </a>
-                    <input type="submit" class="submit" value="Conferma">
+
+                    <form method="POST" th:action="@{/order/{id}(id=${order.id})}" th:object="${order}" class="flex">
+                        <input required type="text" placeholder="N. Tavolo" class="button-sized form-input"
+                            th:field="${order.tableNumber}">
+                        <input type="submit" class="submit" value="Conferma">
+                    </form>
                 </div>
             </div>
         </div>

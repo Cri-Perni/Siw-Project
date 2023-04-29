@@ -128,8 +128,9 @@ img{
     width: 1000px;
 }
 
-.high{
-    height: 700px;;
+.tall{
+    width: 700px;
+    height: 800px;
 }
 
 .large{
@@ -170,9 +171,19 @@ img{
 }
 
 /*div che di default dispone gli oggetti orizzontalmente distribuendoli in modo uniforme*/
+.flexbox{
+    display: flex;
+}
+
 .evenly-spacer{
     display: flex;
     justify-content: space-evenly;
+    width: 100%;
+}
+
+.between-spacer{
+    display: flex;
+    justify-content: space-between;
     width: 100%;
 }
 
@@ -273,6 +284,13 @@ button{
 button:hover {
     box-shadow: 0 0 0 5px #BB4475ac;
 }
+
+.button-sized{ /*utilizzato su un form-input per renderlo della stessa dimensione di un pulsante*/
+    width: 100px;
+    margin: 0%;
+    height: 45px;
+}
+
 
 /*testo*/
 a.title {
