@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import it.uniroma3.siw.model.Item;
@@ -15,6 +16,9 @@ import it.uniroma3.siw.model.Ordination;
 import it.uniroma3.siw.repository.ItemRepository;
 import it.uniroma3.siw.repository.OrderItemRepository;
 import it.uniroma3.siw.repository.OrdinationRepository;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class OrdinationController {
@@ -33,15 +37,19 @@ public class OrdinationController {
 		Ordination order = this.ordinationRepository.findById(id).get();
 		List<Item> items = new ArrayList();
 		
+		
+		//scollega le righe di ordine dalle portate
 		for(OrderItem orderItem : order.getItems()){
 			items.add(orderItem.getItem());
 			orderItem.setItem(null);
 		}
-
+		
+		//scollega le portate dalle righe di ordine
 		for(Item item : items){
 			item.getOrder().removeAll(order.getItems());
 		}
-
+		
+		//rimuovi le righe di ordine e infine l'ordine
 		this.orderItemRepository.deleteAll(this.ordinationRepository.findById(id).get().getItems());
         this.ordinationRepository.deleteById(id);
         return "waiterMenu.html";
@@ -100,4 +108,11 @@ public class OrdinationController {
 
         return "formNewOrder.html";
     }
+
+    @PostMapping("/order")
+    public String newOrder(@ModelAttribute Ordination order, Model model) {
+        this.ordinationRepository.save(order);
+        return "order.html";
+    }
+    
 }
