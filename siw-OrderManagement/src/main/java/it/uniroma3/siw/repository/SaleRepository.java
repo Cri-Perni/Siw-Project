@@ -4,5 +4,4 @@ import org.springframework.data.repository.CrudRepository;
 import it.uniroma3.siw.model.Sale;
 
 public interface SaleRepository extends CrudRepository<Sale,Long>{
-
 }

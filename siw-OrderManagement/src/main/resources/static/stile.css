@@ -320,6 +320,10 @@ a.link {
     color: #7F6E6E;;
 }
 
+.orderbox>div>h2{
+	color: rgba(49, 49, 49, 0.884);
+}
+
 .error{
     color: red;
 }

@@ -11,20 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import it.uniroma3.siw.repository.ItemRepository;
 import it.uniroma3.siw.repository.OrderItemRepository;
 import it.uniroma3.siw.repository.OrdinationRepository;
+import it.uniroma3.siw.repository.SaleRepository;
 
 @Controller
 public class AdminController {
     @Autowired
     ItemRepository itemRepository;
     @Autowired
-    OrdinationRepository ordinationRepository;
+    SaleRepository saleRepository;
     @Autowired
     OrderItemRepository orderItemRepository;
 
     @GetMapping("/managerPage")
 	  public String toManagerPage(Model model) {
+    	
+    	/*Per la stampa dei tre prodotti più venduti*/
         List<Long> ids = this.orderItemRepository.findItemIdOrderByTotalQuantityDesc();
-        
         int i=0;
         for(Long id : ids){
             if(i < 3){
@@ -32,8 +34,17 @@ public class AdminController {
                 i++;
                 }else{break;}
         }
+        
+        /*Per la stampa del numero di vendite totali*/
+        model.addAttribute("totalSales", this.saleRepository.count());
 		
         return "adminMenu.html";
 	}
+    
+    @GetMapping("/sales")
+    public String showSales(Model model) {
+    	model.addAttribute("sales", this.saleRepository.findAll());
+    	return "sales.html";
+    }
     
 }

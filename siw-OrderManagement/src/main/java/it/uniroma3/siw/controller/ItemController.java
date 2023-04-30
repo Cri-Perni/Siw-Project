@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import it.uniroma3.siw.model.Item;
+import it.uniroma3.siw.model.OrderItem;
 import it.uniroma3.siw.repository.ItemRepository;
 import it.uniroma3.siw.validator.ItemValidator;
 import jakarta.validation.Valid;
@@ -67,6 +68,12 @@ public class ItemController {
 	  @GetMapping("/removeItem/{id}")
 	  public String removeItem(@PathVariable("id") Long id, Model model) {
 		  Item item= this.itemRepository.findById(id).get();
+		  
+		  //scollega tutte le righe di ordine dalla portata da rimuovere
+		  for(OrderItem orderLine: item.getOrder()){
+			orderLine.setItem(null);
+		  }
+
 		  this.itemRepository.delete(item);
 		  
 		  model.addAttribute("items", this.itemRepository.findAll());

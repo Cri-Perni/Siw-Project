@@ -81,43 +81,48 @@
             </div>
 
             <div class="column">
-                <h2>I Più Venduti</h2>
-                <div class="column large">
-
-                    <div class="evenly-spacer" th:if="${item1}">
+                <h2 th:text="'I Pi' + &ugrave + ' Venduti'">I Più Venduti</h2>
+                <div>
+                    <div class="margin flexbox">
                         <div class="mini box">
-                            <img th:src="${item1.urlImage}">
+                            <img th:if="${item1}" th:src="${item1.urlImage}">
                         </div>
-                        <div class="column">
-                            <h2 th:text="${item1.description}">Prodotto N1</h2>
+                        <div class="lateral-margin column">
+                            <h2 th:if="${item1}" th:text="${item1.description}">Prodotto N1</h2>
+                            <h2 th:unless="${item1}" th:text="'Nessun Prodotto'">Prodotto N1</h2>
                         </div>
                     </div>
 
-                    <div class="evenly-spacer" th:if="${item2}">
+                    <div class="margin flexbox">
                         <div class="mini box">
-                            <img th:src="${item2.urlImage}">
+                            <img th:if="${item2}" th:src="${item2.urlImage}">
                         </div>
-                        <div class="column">
-                            <h2 th:text="${item2.description}">Prodotto N2</h2>
+                        <div class="lateral-margin column">
+                            <h2 th:if="${item2}" th:text="${item2.description}">Prodotto N2</h2>
+                            <h2 th:unless="${item2}" th:text="'Nessun Prodotto'">Prodotto N2</h2>
                         </div>
                     </div>
 
-                    <div class="evenly-spacer" th:if="${item3}">
+                    <div class="margin flexbox">
                         <div class="mini box">
-                            <img th:src="${item3.urlImage}">
+                            <img th:if="${item3}" th:src="${item3.urlImage}">
                         </div>
-                        <div class="column">
-                            <h2 th:text="${item3.description}">Prodotto N3</h2>
+                        <div class="lateral-margin column">
+                            <h2 th:if="${item3}" th:text="${item3.description}">Prodotto N3</h2>
+                            <h2 th:unless="${item3}" th:text="'Nessun Prodotto'">Prodotto N3</h2>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="column">
-                <div class="mini box">
+				
+				<a th:href="@{/sales}" class="link">
+                <div class="mini box hoverable">
                     <h2>N. Vendite</h2>
-                    <h2>10</h2>
+                    <h2 th:text="${totalSales}">10</h2>
                 </div>
+                </a>
 
                 <a th:href="@{/formNewStaff}" class="link">
                     <div class="mini box hoverable">
@@ -132,6 +137,7 @@
                         <img th:src="@{/svgs/removeMember.svg}" class="nano">
                     </div>
                 </a>
+                
             </div>
         </div>
 

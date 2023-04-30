@@ -137,7 +137,7 @@ public class OrdinationController {
 
     @GetMapping("/searchOrders")
     public String searchOrders(Model model, @RequestParam Integer table) {
-        model.addAttribute("orders", this.ordinationRepository.findByTableNumberAndIsPaid(table, false));
+        model.addAttribute("orders", this.ordinationRepository.findNotPaidTableTotalByTableNumber(table));
         return "formPayment.html";
     }
 
@@ -176,6 +176,7 @@ public class OrdinationController {
             this.ordinationRepository.save(order);
             orders.add(order);
         }
+        
         sale.setDate(LocalDate.now());
         sale.setTime(LocalTime.now());
         sale.setTotal(total);
