@@ -84,30 +84,30 @@
                 <h2>I Più Venduti</h2>
                 <div class="column large">
 
-                    <div class="evenly-spacer">
+                    <div class="evenly-spacer" th:if="${item1}">
                         <div class="mini box">
-                            <img src="">
+                            <img th:src="${item1.urlImage}">
                         </div>
                         <div class="column">
-                            <h2>Prodotto N1</h2>
+                            <h2 th:text="${item1.description}">Prodotto N1</h2>
                         </div>
                     </div>
 
-                    <div class="evenly-spacer">
+                    <div class="evenly-spacer" th:if="${item2}">
                         <div class="mini box">
-                            <img src="">
+                            <img th:src="${item2.urlImage}">
                         </div>
                         <div class="column">
-                            <h2>Prodotto N2</h2>
+                            <h2 th:text="${item2.description}">Prodotto N2</h2>
                         </div>
                     </div>
 
-                    <div class="evenly-spacer">
+                    <div class="evenly-spacer" th:if="${item3}">
                         <div class="mini box">
-                            <img src="">
+                            <img th:src="${item3.urlImage}">
                         </div>
                         <div class="column">
-                            <h2>Prodotto N3</h2>
+                            <h2 th:text="${item3.description}">Prodotto N3</h2>
                         </div>
                     </div>
                 </div>

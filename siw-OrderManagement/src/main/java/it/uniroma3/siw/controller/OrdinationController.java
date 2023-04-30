@@ -1,5 +1,8 @@
 package it.uniroma3.siw.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import it.uniroma3.siw.model.Item;
 import it.uniroma3.siw.model.OrderItem;
 import it.uniroma3.siw.model.Ordination;
+import it.uniroma3.siw.model.Sale;
 import it.uniroma3.siw.repository.ItemRepository;
 import it.uniroma3.siw.repository.OrderItemRepository;
 import it.uniroma3.siw.repository.OrdinationRepository;
+import it.uniroma3.siw.repository.SaleRepository;
+
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -29,6 +34,8 @@ public class OrdinationController {
     OrdinationRepository ordinationRepository;
     @Autowired
     OrderItemRepository orderItemRepository;
+    @Autowired
+    SaleRepository saleRepository;
 
     @GetMapping("/cancelOrder/{id}")
     public String cancelOrder(@PathVariable("id") Long id, Model model) {
@@ -121,13 +128,16 @@ public class OrdinationController {
     }
 
     @GetMapping("/formPayment")
-    public String toFormPayment() {
+    public String toFormPayment(Model model) {
+        //this.ordinationRepository.deleteByTableNumberIsNullOrTotalIsNull();
+        //this.ordinationRepository.deleteByTableNumberIsNullOrIsPaidIsNull();
+        model.addAttribute("orders", this.ordinationRepository.findByIsPaid(false));
         return "formPayment.html";
     }
 
     @GetMapping("/searchOrders")
     public String searchOrders(Model model, @RequestParam Integer table) {
-        model.addAttribute("orders", this.ordinationRepository.findByTableNumberAndIsPaid(table, true));
+        model.addAttribute("orders", this.ordinationRepository.findByTableNumberAndIsPaid(table, false));
         return "formPayment.html";
     }
 
@@ -138,7 +148,7 @@ public class OrdinationController {
         float total= 0;
 
         for (Ordination order : orders) {
-            total= total+order.getTotal();
+            total= total + order.getTotal();
             for (OrderItem orderLine : order.getItems()) {
                 orderLines.add(orderLine);
             }
@@ -152,9 +162,25 @@ public class OrdinationController {
 
     @GetMapping("/payOrder/{id}")
     public String toPayment(@PathVariable("id") Integer id) {
+
+        Sale sale = new Sale();
+        ArrayList<Ordination> orders = new ArrayList<>(); 
+        
+        float total = 0;
+        this.saleRepository.save(sale);
+
         for(Ordination order: this.ordinationRepository.findByTableNumberAndIsPaid(id, false)){
             order.setIsPaid(true);
+            order.setSale(sale);
+            total += order.getTotal();
+            this.ordinationRepository.save(order);
+            orders.add(order);
         }
+        sale.setDate(LocalDate.now());
+        sale.setTime(LocalTime.now());
+        sale.setTotal(total);
+        sale.setOrders(orders);
+        this.saleRepository.save(sale);
         return "waiterMenu.html";
     }
 }

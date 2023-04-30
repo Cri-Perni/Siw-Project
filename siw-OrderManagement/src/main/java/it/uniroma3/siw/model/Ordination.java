@@ -31,7 +31,19 @@ public class Ordination {
 	@ManyToOne
 	private Sale sale;
 
-	public Long getId() {
+	public Ordination(boolean isPaid, Integer tableNumber, Float total){
+		this.id = null;
+		this.items = null;
+		this.sale = null;
+		this.isPaid= isPaid;
+		this.tableNumber = tableNumber;
+		this.total = total;
+	}
+
+	public Ordination() {
+    }
+
+    public Long getId() {
 		return id;
 	}
 

@@ -25,10 +25,6 @@ public class StaffController {
 		  return "waiterMenu.html";
 	  }
 	  
-	  @GetMapping("/managerPage")
-	  public String toManagerPage() {
-		  return "adminMenu.html";
-	  }
 	  
 	  
 	  ///

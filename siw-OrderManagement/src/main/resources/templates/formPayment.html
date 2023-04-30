@@ -25,14 +25,13 @@
             </form>
 
             <div class="orderbox">
-                <div th:each="order: ${orders}">
-                        <h2 th:text="'Ordine Numero: '+ ${order.tableNumber} + ' Totale: ' + ${order.total}+'€">Ordine Tavolo: Totale: €</h2>
+                <div class="between-spacer" th:each="order: ${orders}">
+                        <h2 style="color: rgba(49, 49, 49, 0.884);" th:text="'Tavolo: '+ ${order.tableNumber} + ' Totale: ' + ${order.total}+' £'">Ordine Tavolo: Totale: €</h2>
+                        <a th:if="${orders}" th:href="@{'/toPayment/'+ ${order.tableNumber}}" class="link">
+                            <button>Pagamento</button>
+                        </a>
                 </div>
             </div>
-
-            <a th:unless="${orders}" th:href="@{'/toPayment/'+ ${orders}}" class="link">
-                <button>Pagamento</button>
-            </a>
 
         </div>
     </main>

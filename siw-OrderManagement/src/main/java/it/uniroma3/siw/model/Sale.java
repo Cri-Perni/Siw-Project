@@ -1,7 +1,8 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,9 +22,10 @@ public class Sale {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+
 	private LocalDate date;
-	
-	private LocalDateTime time;
+
+	private LocalTime time;
 	
 	private Float Total;
 	
@@ -48,11 +50,11 @@ public class Sale {
 		this.date = date;
 	}
 
-	public LocalDateTime getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
-	public void setTime(LocalDateTime time) {
+	public void setTime(LocalTime time) {
 		this.time = time;
 	}
 
