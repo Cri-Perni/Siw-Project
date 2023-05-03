@@ -51,7 +51,7 @@ public class ItemController {
 		  {
 	      this.itemRepository.save(item);
 	      model.addAttribute("item", item);
-	      return "item.html";
+	      return "admin/item.html";
 	    } 
 	    else
 	    {
@@ -83,12 +83,12 @@ public class ItemController {
 	  @GetMapping("/items")
 	  public String showItems(Model model) {
 		  model.addAttribute("items", this.itemRepository.findAll());
-		  return "items.html";
+		  return "admin/items.html";
 	  }
 	  
 	  @GetMapping("/items/{id}")
 	  public String getItem(@PathVariable("id") Long id, Model model) {
 	    model.addAttribute("item", this.itemRepository.findById(id).get());
-	    return "item.html";
+	    return "admin/item.html";
 	  }
 }

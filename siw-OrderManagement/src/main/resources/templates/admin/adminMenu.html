@@ -27,9 +27,9 @@
             <div class="dropdown">
                 <p>Staff</p>
                 <div class="dropdown-content">
-                    <a th:href="@{/staff}">Visualizza Tutti</a>
-                    <a th:href="@{/formNewStaff}">Nuovo Membro</a>
-                    <a th:href="@{/removeStaffPage}">Rimuovi Membro</a>
+                    <a th:href="@{/users}">Visualizza Tutti</a>
+                    <a th:href="@{/formNewUser}">Nuovo Membro</a>
+                    <a th:href="@{/removeUserPage}">Rimuovi Membro</a>
                 </div>
             </div>
 
@@ -124,14 +124,14 @@
                 </div>
                 </a>
 
-                <a th:href="@{/formNewStaff}" class="link">
+                <a th:href="@{/formNewUser}" class="link">
                     <div class="mini box hoverable">
                         <h3>Nuovo Membro</h3>
                         <img th:src="@{/svgs/newMember.svg}" class="nano">
                     </div>
                 </a>
 
-                <a th:href="@{/removeStaffPage}" class="link">
+                <a th:href="@{/removeUserPage}" class="link">
                     <div class="mini box hoverable">
                         <h3>Rimuovi Membro</h3>
                         <img th:src="@{/svgs/removeMember.svg}" class="nano">

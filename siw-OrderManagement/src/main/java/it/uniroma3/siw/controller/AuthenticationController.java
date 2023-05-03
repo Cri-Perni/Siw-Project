@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CredentialsService;
 import jakarta.validation.Valid;
 
@@ -23,29 +24,32 @@ public class AuthenticationController {
 
     @Autowired
 	private CredentialsService credentialsService;
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping("/formNewStaff")
+    @GetMapping("/formNewUser")
 	  public String formNewstaff(Model model){
 		  model.addAttribute("user", new User());
-		  model.addAttribute("credentials", new User());
-		  return "admin/formNewStaff.html";
+		  //model.addAttribute("credentials", new User());
+		  return "admin/formNewUser.html";
 	  }
 
-    @PostMapping(value = { "/formNewStaff" })
+    @PostMapping(value = { "/formNewUser" })
     public String registerUser(@Valid @ModelAttribute("user") User user,
-                 BindingResult userBindingResult, @Valid
+                 BindingResult userBindingResult, /*@Valid
                  @ModelAttribute("credentials") Credentials credentials,
-                 BindingResult credentialsBindingResult,
+                 BindingResult credentialsBindingResult,*/
                  Model model) {
 
-        // se user e credential hanno entrambi contenuti validi, memorizza User e the Credentials nel DB
-        if(!userBindingResult.hasErrors() && ! credentialsBindingResult.hasErrors()) {
-            credentials.setUser(user);
-            credentialsService.saveCredentials(credentials);
+        // se user e credential hanno entrambi contenuti validi, memorizza User e le Credentials nel DB
+        if(!userBindingResult.hasErrors() /*&& ! credentialsBindingResult.hasErrors()*/) {
+            //credentials.setUser(user);
+            credentialsService.saveCredentials(user.getCredentials()/*credentials*/);
+            this.userRepository.save(user); //?
             model.addAttribute("user", user);
-            return "staff.html";
+            return "admin/user.html";
         }
-        return "admin/fromNewStaff.html";
+        return "admin/fromNewUser.html";
     }
 
     @GetMapping(value = "/index") 

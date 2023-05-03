@@ -17,17 +17,17 @@
 
     <main style="margin-top: 1%;">
         <div class="evenly-spacer">
-            <h1 th:if="!${staff.isEmpty()}" class="title">Tutti i Membri dello Staff</h1>
-            <h1 th:unless="!${staff.isEmpty()}" class="title">Non ci sono Membri dello Staff</h1>
+            <h1 th:if="!${users.isEmpty()}" class="title">Tutti i Membri dello Staff</h1>
+            <h1 th:unless="!${users.isEmpty()}" class="title">Non ci sono Membri dello Staff</h1>
         </div>
 
         <div style="overflow-x: scroll; margin-top: 10%;">
             <div style="display: flex;">
 
-                <a th:each="member: ${staff}" th:href="@{'/staff' + '/' + ${member.id} }" class="link">
+                <a th:each="user: ${users}" th:href="@{'/user' + '/' + ${user.id} }" class="link">
                     <div class="hoverable small box lateral-margin">
                        <!-- <img th:src="${member.urlImage}" class="nano">-->
-                        <h2 th:text="${member.name} + ' ' + ${member.lastName}">Nome Cognome</h2>
+                        <h2 th:text="${user.name} + ' ' + ${user.lastName}">Nome Cognome</h2>
                     </div>
                 </a>
             </div>

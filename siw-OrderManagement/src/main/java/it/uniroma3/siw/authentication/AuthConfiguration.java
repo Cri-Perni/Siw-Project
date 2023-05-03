@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 
-public class AuthConfiguration1{
+public class AuthConfiguration{
 
     @Autowired
 	DataSource dataSource;
@@ -53,14 +53,9 @@ public class AuthConfiguration1{
         return manager;
     }
 
-
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return encoder;
     }
-
-
 }

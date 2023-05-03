@@ -9,22 +9,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import it.uniroma3.siw.model.Staff;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.CredentialsRepository;
-import it.uniroma3.siw.repository.StaffRepository;
+import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CredentialsService;
-import it.uniroma3.siw.validator.StaffValidator;
+import it.uniroma3.siw.validator.UserValidator;
 import jakarta.validation.Valid;
 
 @Controller
-public class StaffController {
+public class UserController {
 	
-	@Autowired StaffRepository staffRepository;
-	@Autowired StaffValidator staffValidator;
+	@Autowired UserRepository userRepository;
+	@Autowired UserValidator userValidator;
 	@Autowired CredentialsRepository credentialsRepository;
 	
-	  @GetMapping("/staffPage")
+	  @GetMapping("/userPage")
 	  public String toStaffPage() {
 		  return "waiterMenu.html";
 	  }
@@ -54,30 +53,29 @@ public class StaffController {
 	    }
 	  }*/
 	  
-	  @GetMapping("/removeStaffPage")
-	  public String toRemoveStaffPage(Model model) {
-		  model.addAttribute("staff", this.staffRepository.findAll());
-		  return "admin/removeStaff.html";
+	  @GetMapping("/removeUserPage")
+	  public String toRemoveUserPage(Model model) {
+		  model.addAttribute("users", this.userRepository.findAll());
+		  return "admin/removeUser.html";
 	  }
 	  
-	  @GetMapping("/removeStaff/{id}")
-	  public String removestaff(@PathVariable("id") Long id, Model model) {
-		  Staff staff= this.staffRepository.findById(id).get();
-		  this.staffRepository.delete(staff);
+	  @GetMapping("/removeUser/{id}")
+	  public String removeUser(@PathVariable("id") Long id, Model model) {
+		  this.userRepository.deleteById(id);
 		  
-		  model.addAttribute("staff", this.staffRepository.findAll());
-		  return "admin/removeStaff.html";
+		  model.addAttribute("users", this.userRepository.findAll());
+		  return "admin/removeUser.html";
 	  }
 	  
-	  @GetMapping("/staff")
-	  public String showStaff(Model model) {
-		  model.addAttribute("staff", this);
-		  return "staff.html";
+	  @GetMapping("/users")
+	  public String showUsers(Model model) {
+		  model.addAttribute("users", this.userRepository.findAll());
+		  return "admin/users.html";
 	  }
 	  
-	  @GetMapping("/staff/{id}")
-	  public String getStaff(@PathVariable("id") Long id, Model model) {
-	    model.addAttribute("staff", this.staffRepository.findById(id).get());
-	    return "staffMember.html";
+	  @GetMapping("/user/{id}")
+	  public String getUser(@PathVariable("id") Long id, Model model) {
+	    model.addAttribute("user", this.userRepository.findById(id).get());
+	    return "admin/user.html";
 	  }
 }

@@ -44,7 +44,7 @@ public class AdminController {
     @GetMapping("/sales")
     public String showSales(Model model) {
     	model.addAttribute("sales", this.saleRepository.findAll());
-    	return "sales.html";
+    	return "admin/sales.html";
     }
     
 }
