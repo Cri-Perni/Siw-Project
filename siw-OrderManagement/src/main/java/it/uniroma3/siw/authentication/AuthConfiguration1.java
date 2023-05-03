@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,9 +29,9 @@ public class AuthConfiguration1{
 
         http
         .authorizeHttpRequests()
-        .requestMatchers(HttpMethod.GET, "/", "/index", "/login", "/register", "/css/**", "/svgs/**", "favicon.ico").permitAll()
-        .anyRequest().authenticated()
-        .and().exceptionHandling().accessDeniedPage("/index");
+        //.requestMatchers(HttpMethod.GET, "/", "/index", "/login", "/register", "/css/**", "/svgs/**", "favicon.ico").permitAll()
+        .anyRequest().permitAll();
+        //.and().exceptionHandling().accessDeniedPage("/index");
 
 
 

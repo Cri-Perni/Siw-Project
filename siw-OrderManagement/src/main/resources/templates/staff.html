@@ -26,8 +26,8 @@
 
                 <a th:each="member: ${staff}" th:href="@{'/staff' + '/' + ${member.id} }" class="link">
                     <div class="hoverable small box lateral-margin">
-                        <img th:src="${member.urlImage}" class="nano">
-                        <h2 th:text="${member.name} + ' ' + ${member.surname}">Nome Cognome</h2>
+                       <!-- <img th:src="${member.urlImage}" class="nano">-->
+                        <h2 th:text="${member.name} + ' ' + ${member.lastName}">Nome Cognome</h2>
                     </div>
                 </a>
             </div>

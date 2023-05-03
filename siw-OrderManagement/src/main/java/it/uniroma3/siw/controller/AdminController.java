@@ -38,7 +38,7 @@ public class AdminController {
         /*Per la stampa del numero di vendite totali*/
         model.addAttribute("totalSales", this.saleRepository.count());
 		
-        return "adminMenu.html";
+        return "admin/adminMenu.html";
 	}
     
     @GetMapping("/sales")

@@ -22,10 +22,10 @@ public class ItemController {
 	@Autowired ItemValidator itemValidator;
 	
 	//sono presenti implementazioni di richieste momentanee, saranno spostate in ManagerController e StaffController
-	  @GetMapping("/index")
+	  /*@GetMapping("/index")
 	  public String toIndex() {
 	    return "index.html";
-	  }
+	  }*/
 	  
 	  @GetMapping("/login")
 	  public String toLogin() {
@@ -41,7 +41,7 @@ public class ItemController {
 	  @GetMapping("/formNewItem")
 	  public String formNewItem(Model model){
 		  model.addAttribute("item", new Item());
-		  return "formNewItem.html";
+		  return "admin/formNewItem.html";
 	  }
 	  
 	  @PostMapping("/newItem")
@@ -55,14 +55,14 @@ public class ItemController {
 	    } 
 	    else
 	    {
-	      return "formNewItem.html";
+	      return "admin/formNewItem.html";
 	    }
 	  }
 	  
 	  @GetMapping("/removeItemPage")
 	  public String toRemoveItemPage(Model model) {
 		  model.addAttribute("items", this.itemRepository.findAll());
-		  return "removeItems.html";
+		  return "admin/removeItems.html";
 	  }
 	  
 	  @GetMapping("/removeItem/{id}")
@@ -77,7 +77,7 @@ public class ItemController {
 		  this.itemRepository.delete(item);
 		  
 		  model.addAttribute("items", this.itemRepository.findAll());
-		  return "removeItems.html";
+		  return "admin/removeItems.html";
 	  }
 	  
 	  @GetMapping("/items")

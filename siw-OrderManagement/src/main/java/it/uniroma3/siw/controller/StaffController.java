@@ -10,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import it.uniroma3.siw.model.Staff;
+import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.repository.CredentialsRepository;
 import it.uniroma3.siw.repository.StaffRepository;
+import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.validator.StaffValidator;
 import jakarta.validation.Valid;
 
@@ -19,6 +22,7 @@ public class StaffController {
 	
 	@Autowired StaffRepository staffRepository;
 	@Autowired StaffValidator staffValidator;
+	@Autowired CredentialsRepository credentialsRepository;
 	
 	  @GetMapping("/staffPage")
 	  public String toStaffPage() {
@@ -28,10 +32,11 @@ public class StaffController {
 	  
 	  
 	  ///
-	  @GetMapping("/formNewStaff")
+	  /*@GetMapping("/formNewStaff")
 	  public String formNewstaff(Model model){
-		  model.addAttribute("staff", new Staff());
-		  return "formNewStaff.html";
+		  model.addAttribute("user", new User());
+		  model.addAttribute("credentials", new User());
+		  return "admin/formNewStaff.html";
 	  }
 	  
 	  @PostMapping("/newStaff")
@@ -45,14 +50,14 @@ public class StaffController {
 	    } 
 	    else
 	    {
-	      return "formNewStaff.html";
+	      return "admin/formNewStaff.html";
 	    }
-	  }
+	  }*/
 	  
 	  @GetMapping("/removeStaffPage")
 	  public String toRemoveStaffPage(Model model) {
 		  model.addAttribute("staff", this.staffRepository.findAll());
-		  return "removeStaff.html";
+		  return "admin/removeStaff.html";
 	  }
 	  
 	  @GetMapping("/removeStaff/{id}")
@@ -61,12 +66,12 @@ public class StaffController {
 		  this.staffRepository.delete(staff);
 		  
 		  model.addAttribute("staff", this.staffRepository.findAll());
-		  return "removeStaff.html";
+		  return "admin/removeStaff.html";
 	  }
 	  
 	  @GetMapping("/staff")
 	  public String showStaff(Model model) {
-		  model.addAttribute("staff", this.staffRepository.findAll());
+		  model.addAttribute("staff", this);
 		  return "staff.html";
 	  }
 	  

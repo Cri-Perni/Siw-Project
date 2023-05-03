@@ -41,7 +41,7 @@ public class OrdinationController {
     public String cancelOrder(@PathVariable("id") Long id, Model model) {
 
         Ordination order = this.ordinationRepository.findById(id).get();
-        List<Item> items = new ArrayList();
+        List<Item> items = new ArrayList<>();
 
         // scollega le righe di ordine dalle portate
         for (OrderItem orderItem : order.getItems()) {
