@@ -17,6 +17,7 @@ import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.UserService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -26,27 +27,32 @@ public class AuthenticationController {
 	private CredentialsService credentialsService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+	private UserService userService;
 
     @GetMapping("/formNewUser")
 	  public String formNewstaff(Model model){
 		  model.addAttribute("user", new User());
-		  //model.addAttribute("credentials", new User());
+		  model.addAttribute("credentials", new Credentials());
 		  return "admin/formNewUser.html";
 	  }
 
     @PostMapping(value = { "/formNewUser" })
     public String registerUser(@Valid @ModelAttribute("user") User user,
-                 BindingResult userBindingResult, /*@Valid
+                 BindingResult userBindingResult, @Valid
                  @ModelAttribute("credentials") Credentials credentials,
-                 BindingResult credentialsBindingResult,*/
+                 BindingResult credentialsBindingResult,
                  Model model) {
 
         // se user e credential hanno entrambi contenuti validi, memorizza User e le Credentials nel DB
         if(!userBindingResult.hasErrors() /*&& ! credentialsBindingResult.hasErrors()*/) {
             //credentials.setUser(user);
             credentialsService.saveCredentials(user.getCredentials()/*credentials*/);
-            this.userRepository.save(user); //?
+            
+            user.getCredentials().setUser(user);
+            userService.saveUser(user);
             model.addAttribute("user", user);
+            
             return "admin/user.html";
         }
         return "admin/fromNewUser.html";
