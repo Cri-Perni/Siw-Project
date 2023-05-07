@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users") // cambiamo nome perchè in postgres user e' una parola riservata
@@ -20,6 +21,8 @@ public class User {
 
 	@NotBlank
 	private String surname;
+
+	@NotBlank
 	private String email;
 
 	@OneToOne(mappedBy = "user")

@@ -22,22 +22,24 @@ public class AdminController {
     @Autowired
     OrderItemRepository orderItemRepository;
 
-    @GetMapping("/managerPage")
-	  public String toManagerPage(Model model) {
-    	
-    	/*Per la stampa dei tre prodotti più venduti*/
-        List<Long> ids = this.orderItemRepository.findItemIdOrderByTotalQuantityDesc();
+    public static void loadManagerPageAttributes(Model model, OrderItemRepository orderItemRepository, ItemRepository itemRepository, SaleRepository saleRepository){
+        /*Per la stampa dei tre prodotti più venduti*/
+        List<Long> ids = orderItemRepository.findItemIdOrderByTotalQuantityDesc();
         int i=0;
         for(Long id : ids){
             if(i < 3){
-                model.addAttribute("item"+(i+1), this.itemRepository.findById(id).get());
+                model.addAttribute("item"+(i+1), itemRepository.findById(id).get());
                 i++;
                 }else{break;}
         }
         
         /*Per la stampa del numero di vendite totali*/
-        model.addAttribute("totalSales", this.saleRepository.count());
-		
+        model.addAttribute("totalSales", saleRepository.count());
+    }
+
+    @GetMapping("/managerPage")
+	  public String toManagerPage(Model model) {
+        loadManagerPageAttributes(model,orderItemRepository,itemRepository,saleRepository);
         return "admin/adminMenu.html";
 	}
     
