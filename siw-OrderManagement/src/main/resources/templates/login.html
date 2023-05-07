@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIW Order -Login</title>
-    <link rel="stylesheet" th:href="@{/stile.css}">
+    <link rel="stylesheet" th:href="@{css/stile.css}">
 </head>
 
 <body class="background">
@@ -21,15 +22,18 @@
                 <div class="column">
                     <img class="whide hoverable" th:src="@{/svgs/login.svg}">
                 </div>
-                <form action="" class="column whide">
+                <form action="@{/login}" class="column whide" method="post">
                     <h2 class="title">Login</h2>
                     <div class="input-content">
-                        <input type="text" placeholder="e-mail" class="form-input">
-                        <input type="text" placeholder="password" class="form-input">
+                        <input name="username" type="text" required placeholder="username" class="form-input"/>
+                        <input name="password" type="password" required placeholder="password" class="form-input" />
                         <!--- <input type="text" placeholder="dato 3" class="form-input"> -->
                     </div>
                     <br>
                     <input type="submit" class="submit">
+                        <div>
+			   <span th:if="${param.error != null}">Username o password errati</span>
+			</div>
                     <h3 class="error">Errore</h3>
                 </form>
             </div>

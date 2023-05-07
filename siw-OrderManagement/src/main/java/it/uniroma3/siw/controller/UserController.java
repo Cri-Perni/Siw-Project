@@ -25,7 +25,7 @@ public class UserController {
 	
 	  @GetMapping("/userPage")
 	  public String toStaffPage() {
-		  return "waiterMenu.html";
+		  return "staff/waiterMenu.html";
 	  }
 	  
 	  

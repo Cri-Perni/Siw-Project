@@ -57,7 +57,7 @@ public class OrdinationController {
         // rimuovi le righe di ordine e infine l'ordine
         this.orderItemRepository.deleteAll(this.ordinationRepository.findById(id).get().getItems());
         this.ordinationRepository.deleteById(id);
-        return "waiterMenu.html";
+        return "staff/waiterMenu.html";
     }
 
     @GetMapping("/formNewOrder")
@@ -71,7 +71,7 @@ public class OrdinationController {
 
         model.addAttribute("order", order);
         model.addAttribute("items", this.itemRepository.findAll());
-        return "formNewOrder.html";
+        return "staff/formNewOrder.html";
     }
 
     @GetMapping("/addItemToOrder/{orderid}/{itemid}")
@@ -111,7 +111,7 @@ public class OrdinationController {
         model.addAttribute("order", order);
         model.addAttribute("items", this.itemRepository.findAll());
 
-        return "formNewOrder.html";
+        return "staff/formNewOrder.html";
     }
 
     @PostMapping("/order/{id}")
@@ -124,7 +124,7 @@ public class OrdinationController {
         this.ordinationRepository.save(order);
         //aggiungi l'ordine aggiornato alla vista
         model.addAttribute("order", order);
-        return "order.html";
+        return "staff/order.html";
     }
 
     @GetMapping("/formPayment")
@@ -132,13 +132,13 @@ public class OrdinationController {
         //this.ordinationRepository.deleteByTableNumberIsNullOrTotalIsNull();
         //this.ordinationRepository.deleteByTableNumberIsNullOrIsPaidIsNull();
         model.addAttribute("orders", this.ordinationRepository.findByIsPaid(false));
-        return "formPayment.html";
+        return "staff/formPayment.html";
     }
 
     @GetMapping("/searchOrders")
     public String searchOrders(Model model, @RequestParam Integer table) {
         model.addAttribute("orders", this.ordinationRepository.findNotPaidTableTotalByTableNumber(table));
-        return "formPayment.html";
+        return "staff/formPayment.html";
     }
 
     @GetMapping("/toPayment/{id}")
@@ -157,7 +157,7 @@ public class OrdinationController {
         model.addAttribute("tableNumber", id);
         model.addAttribute("total", total);
         model.addAttribute("orderLines", orderLines);
-        return "payOrder.html";
+        return "staff/payOrder.html";
     }
 
     @GetMapping("/payOrder/{id}")
@@ -182,6 +182,6 @@ public class OrdinationController {
         sale.setTotal(total);
         sale.setOrders(orders);
         this.saleRepository.save(sale);
-        return "waiterMenu.html";
+        return "staff/waiterMenu.html";
     }
 }

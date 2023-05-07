@@ -73,5 +73,18 @@ public class AuthenticationController {
 		}
         return "index.html";
 	}
+
+    @GetMapping(value = "/success")
+    public String defaultAfterLogin(Model model) {
+        
+    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+    	if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "admin/adminMenu.html";
+        }else if(credentials.getRole().equals(Credentials.DEFAULT_ROLE)){
+            return "waiterMenu.html";
+        }
+        return "login.html";
+    }
     
 }

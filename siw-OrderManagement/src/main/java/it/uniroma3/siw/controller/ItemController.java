@@ -27,7 +27,7 @@ public class ItemController {
 	    return "index.html";
 	  }*/
 	  
-	  @GetMapping("/login")
+	  @GetMapping(value="/login")
 	  public String toLogin() {
 		  return "login.html";  
 	  }

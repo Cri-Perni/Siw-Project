@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIW Order -Pagamento Ordine</title>
-    <link rel="stylesheet" th:href="@{/stile.css}">
+    <title>SIW Order -Riepilogo Ordine</title>
+    <link rel="stylesheet" th:href="@{css/stile.css}">
 </head>
 
 <body class="background">
@@ -17,27 +17,25 @@
 
     <main class="evenly-spacer" style="margin-top: 1%;">
         <div class="tall column box">
-                <h2 class="title">Pagamento Ordine</h2>
+                <h2 class="title">Riepilogo Ordine</h2>
 
                 <div class="orderbox">
-                    <h2 th:text="'Numero Tavolo: ' + ${tableNumber}">Numero Tavolo</h2>
+                    <h2 th:text="'Numero Tavolo: ' + ${order.tableNumber}">Numero Tavolo</h2>
                     <hr>
-                    <div th:each="orderLine: ${orderLines}">
-                        <h2 th:if="${orderLine.item}" th:text="${orderLine.item.description} + ' ' + ${orderLine.quantity}">Nome Portata</h2>
-                        <h2 th:unless="${orderLine.item}" th:text="'La Portata '+&egrave;+' stata eliminata'">Nome Portata</h2>
+                    <div th:each="orderLine: ${order.items}">
+                        <h2 th:text="${orderLine.item.description} + ' ' + ${orderLine.quantity}">Nome Portata</h2>
                     </div>
                 </div>
 
                 <div class="width">
-                    <h2 th:text="'Totale Ordine: ' + ${total}">Totale: Prezzo</h2>
+                    <h2 th:text="'Totale Ordine: ' + ${order.total}">Totale: Prezzo</h2>
                 </div>
 
                 <div class="evenly-spacer">
-                    <a th:href="@{'/payOrder/'+ ${tableNumber}}" class="link">
-                        <button>Paga Ordine</button>
+                    <a th:href="@{/userPage}" class="link">
+                        <button>Indietro</button>
                     </a>
                 </div>
-
             </div>
     </main>
 
