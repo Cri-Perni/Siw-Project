@@ -38,13 +38,13 @@ public class ItemController {
 	  }
 	  
 	  ///
-	  @GetMapping("/formNewItem")
+	  @GetMapping("/admin/formNewItem")
 	  public String formNewItem(Model model){
 		  model.addAttribute("item", new Item());
 		  return "admin/formNewItem.html";
 	  }
 	  
-	  @PostMapping("/newItem")
+	  @PostMapping("/admin/newItem")
 	  public String newMovie(@Valid @ModelAttribute("item") Item item, BindingResult bindingResult, Model model) {
 		  this.itemValidator.validate(item,bindingResult);
 		  if(!bindingResult.hasErrors())
@@ -59,13 +59,13 @@ public class ItemController {
 	    }
 	  }
 	  
-	  @GetMapping("/removeItemPage")
+	  @GetMapping("/admin/removeItemPage")
 	  public String toRemoveItemPage(Model model) {
 		  model.addAttribute("items", this.itemRepository.findAll());
 		  return "admin/removeItems.html";
 	  }
 	  
-	  @GetMapping("/removeItem/{id}")
+	  @GetMapping("/admin/removeItem/{id}")
 	  public String removeItem(@PathVariable("id") Long id, Model model) {
 		  Item item= this.itemRepository.findById(id).get();
 		  
@@ -80,13 +80,13 @@ public class ItemController {
 		  return "admin/removeItems.html";
 	  }
 	  
-	  @GetMapping("/items")
+	  @GetMapping("/admin/items")
 	  public String showItems(Model model) {
 		  model.addAttribute("items", this.itemRepository.findAll());
 		  return "admin/items.html";
 	  }
 	  
-	  @GetMapping("/items/{id}")
+	  @GetMapping("/admin/items/{id}")
 	  public String getItem(@PathVariable("id") Long id, Model model) {
 	    model.addAttribute("item", this.itemRepository.findById(id).get());
 	    return "admin/item.html";

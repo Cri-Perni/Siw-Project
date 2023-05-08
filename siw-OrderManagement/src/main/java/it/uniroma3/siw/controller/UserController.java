@@ -53,13 +53,13 @@ public class UserController {
 	    }
 	  }*/
 	  
-	  @GetMapping("/removeUserPage")
+	  @GetMapping("/admin/removeUserPage")
 	  public String toRemoveUserPage(Model model) {
 		  model.addAttribute("users", this.userRepository.findAll());
 		  return "admin/removeUser.html";
 	  }
 	  
-	  @GetMapping("/removeUser/{id}")
+	  @GetMapping("/admin/removeUser/{id}")
 	  public String removeUser(@PathVariable("id") Long id, Model model) {
 		  this.userRepository.deleteById(id);
 		  
@@ -67,13 +67,13 @@ public class UserController {
 		  return "admin/removeUser.html";
 	  }
 	  
-	  @GetMapping("/users")
+	  @GetMapping("/admin/users")
 	  public String showUsers(Model model) {
 		  model.addAttribute("users", this.userRepository.findAll());
 		  return "admin/users.html";
 	  }
 	  
-	  @GetMapping("/user/{id}")
+	  @GetMapping("/admin/user/{id}")
 	  public String getUser(@PathVariable("id") Long id, Model model) {
 	    model.addAttribute("user", this.userRepository.findById(id).get());
 	    return "admin/user.html";

@@ -37,13 +37,13 @@ public class AdminController {
         model.addAttribute("totalSales", saleRepository.count());
     }
 
-    @GetMapping("/managerPage")
+    @GetMapping("/admin/managerPage")
 	  public String toManagerPage(Model model) {
         loadManagerPageAttributes(model,orderItemRepository,itemRepository,saleRepository);
         return "admin/adminMenu.html";
 	}
     
-    @GetMapping("/sales")
+    @GetMapping("/admin/sales")
     public String showSales(Model model) {
     	model.addAttribute("sales", this.saleRepository.findAll());
     	return "admin/sales.html";

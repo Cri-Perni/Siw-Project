@@ -39,14 +39,14 @@ public class AuthenticationController {
     @Autowired
 	private UserService userService;
 
-    @GetMapping("/formNewUser")
+    @GetMapping("/admin/formNewUser")
 	  public String formNewstaff(Model model){
 		  model.addAttribute("user", new User());
 		  model.addAttribute("credentials", new Credentials());
 		  return "admin/formNewUser.html";
 	  }
 
-    @PostMapping(value = { "/formNewUser" })
+    @PostMapping(value = { "/admin/formNewUser" })
     public String registerUser(@Valid @ModelAttribute("user") User user,
                  BindingResult userBindingResult, @Valid
                  @ModelAttribute("credentials") Credentials credentials,

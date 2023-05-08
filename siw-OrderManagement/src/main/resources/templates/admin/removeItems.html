@@ -24,7 +24,7 @@
         <div style="overflow-x: scroll; margin-top: 10%;">
             <div style="display: flex;">
 
-                <a th:each="item: ${items}" th:href="@{'/removeItem' + '/' + ${item.id} }" class="link">
+                <a th:each="item: ${items}" th:href="@{'/admin/removeItem' + '/' + ${item.id} }" class="link">
                     <div class="hoverable small box lateral-margin">
                         <img th:src="${item.urlImage}" class="nano">
                         <h2 th:text="${item.description} + ' ' + ${item.price}">Nome Portata</h2>
