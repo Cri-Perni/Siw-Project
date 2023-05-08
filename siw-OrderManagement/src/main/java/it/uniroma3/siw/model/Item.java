@@ -13,22 +13,21 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Item {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@NotBlank
 	private String description;
-	
+
 	@NotNull
 	private Float price;
-	
+
 	private String urlImage;
-	
-	@OneToMany(mappedBy="item")
+
+	@OneToMany(mappedBy = "item")
 	List<OrderItem> order;
-	
 
 	public Long getId() {
 		return id;
@@ -88,7 +87,5 @@ public class Item {
 				&& Objects.equals(order, other.order) && Objects.equals(price, other.price)
 				&& Objects.equals(urlImage, other.urlImage);
 	}
-
-
 
 }

@@ -8,19 +8,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static it.uniroma3.siw.model.Credentials.ADMIN_ROLE;
-import static it.uniroma3.siw.model.Credentials.DEFAULT_ROLE;
 
 @Configuration
 @EnableWebSecurity
@@ -53,12 +50,7 @@ public class AuthConfiguration{
         .clearAuthentication(true).permitAll();
 
         return http.build();
-
-        
-        
     }
-
-    
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -67,7 +59,6 @@ public class AuthConfiguration{
         provider.setUserDetailsService(userDetailsService());
         return provider;
     }
-
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -78,12 +69,6 @@ public class AuthConfiguration{
         return manager;
     }
 
-
-    /*@Bean
-    public PasswordEncoder passwordEncoder() {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        return encoder;
-    }*/
     @Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

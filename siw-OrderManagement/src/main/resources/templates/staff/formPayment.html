@@ -19,7 +19,7 @@
         <div class="tall column box">
             <h2 class="title">Cerca Ordini</h2>
 
-            <form method="GET" action="@{/searchOrders}" class="evenly-spacer">
+            <form method="GET" th:action="@{/searchOrders}" class="evenly-spacer">
                 <input type="text" class="form-input" placeholder="Numero del Tavolo" style="margin: 0%;" th:name="tableNumber">
                 <input type="submit" class="submit" value="Cerca" style="height: 50px;">
             </form>

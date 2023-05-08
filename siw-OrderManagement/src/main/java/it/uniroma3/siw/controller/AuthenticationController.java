@@ -7,11 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
@@ -27,7 +24,7 @@ import jakarta.validation.Valid;
 public class AuthenticationController {
 
     @Autowired
-	private CredentialsService credentialsService;
+    private CredentialsService credentialsService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -37,65 +34,75 @@ public class AuthenticationController {
     @Autowired
     private OrderItemRepository orderItemRepository;
     @Autowired
-	private UserService userService;
+    private UserService userService;
+
+    @GetMapping("/error")
+    public String errorPage() {
+        return "notFound.html";
+    }
+
+    @GetMapping("/login")
+    public String toLoginPage() {
+        return "login.html";
+    }
 
     @GetMapping("/admin/formNewUser")
-	  public String formNewstaff(Model model){
-		  model.addAttribute("user", new User());
-		  model.addAttribute("credentials", new Credentials());
-		  return "admin/formNewUser.html";
-	  }
+    public String formNewstaff(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("credentials", new Credentials());
+        return "admin/formNewUser.html";
+    }
 
     @PostMapping(value = { "/admin/formNewUser" })
     public String registerUser(@Valid @ModelAttribute("user") User user,
-                 BindingResult userBindingResult, @Valid
-                 @ModelAttribute("credentials") Credentials credentials,
-                 BindingResult credentialsBindingResult,
-                 Model model) {
+            BindingResult userBindingResult, @Valid @ModelAttribute("credentials") Credentials credentials,
+            BindingResult credentialsBindingResult,
+            Model model) {
 
-        // se user e credential hanno entrambi contenuti validi, memorizza User e le Credentials nel DB
-        if(!userBindingResult.hasErrors() /*&& ! credentialsBindingResult.hasErrors()*/) {
-            //credentials.setUser(user);
-            credentialsService.saveCredentials(user.getCredentials()/*credentials*/);
-            
+        // se user e credential hanno entrambi contenuti validi, memorizza User e le
+        // Credentials nel DB
+        if (!userBindingResult.hasErrors() /* && ! credentialsBindingResult.hasErrors() */) {
+            // credentials.setUser(user);
+            credentialsService.saveCredentials(user.getCredentials()/* credentials */);
+
             user.getCredentials().setUser(user);
             userService.saveUser(user);
             model.addAttribute("user", user);
-            
+
             return "admin/user.html";
         }
         return "admin/fromNewUser.html";
     }
 
-    @GetMapping(value = "/index") 
-	public String index(Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
-	        return "staff/waiterMenu.html";
-		}
-		else {		
-			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-			if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-                AdminController.loadManagerPageAttributes(model,orderItemRepository,itemRepository,saleRepository);//carica i dati necessari alla managerPage
-				return "admin/adminMenu.html";
-			}
-		}
+    @GetMapping(value = "/index")
+    public String index(Model model) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        if (credentials.getRole().equals(Credentials.DEFAULT_ROLE)) {
+            return "staff/waiterMenu.html";
+        } else {
+            if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+                // carica i dati necessari alla managerPage
+                AdminController.loadManagerPageAttributes(model, orderItemRepository, itemRepository, saleRepository);
+                return "admin/adminMenu.html";
+            }
+        }
         return "index.html";
-	}
+    }
 
     @GetMapping(value = "/success")
     public String defaultAfterLogin(Model model) {
-        
-    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-    	if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            AdminController.loadManagerPageAttributes(model,orderItemRepository,itemRepository,saleRepository);//carica i dati necessari alla managerPage
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            // carica i dati necessari alla managerPage
+            AdminController.loadManagerPageAttributes(model, orderItemRepository, itemRepository, saleRepository);
             return "admin/adminMenu.html";
-        }else if(credentials.getRole().equals(Credentials.DEFAULT_ROLE)){
+        } else if (credentials.getRole().equals(Credentials.DEFAULT_ROLE)) {
             return "staff/waiterMenu.html";
         }
         return "login.html";
     }
-    
+
 }

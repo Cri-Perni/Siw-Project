@@ -1,7 +1,6 @@
 package it.uniroma3.siw.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +86,8 @@ public class OrdinationController {
             // se esiste, aumenta la quantità di 1
             orderItem.updateQuantity();
         } else {
-            // se non esiste, crea una nuova OrderItem e aggiungila alle liste di Order eItem
+            // se non esiste, crea una nuova OrderItem e aggiungila alle liste di Order
+            // eItem
             orderItem = new OrderItem();
             orderItem.setAll(order, item, 1);
             order.getItems().add(orderItem);
@@ -102,7 +102,8 @@ public class OrdinationController {
         }
 
         order.setTotal(total);
-        // rendi persistente l'oggetto OrderItem e le modifiche alle liste di Order e Item
+        // rendi persistente l'oggetto OrderItem e le modifiche alle liste di Order e
+        // Item
         this.orderItemRepository.save(orderItem);
         this.ordinationRepository.save(order);
         this.itemRepository.save(item);
@@ -116,28 +117,28 @@ public class OrdinationController {
 
     @PostMapping("/order/{id}")
     public String newOrder(@PathVariable Long id, @ModelAttribute Ordination neworder, Model model) {
-        //ottieni l'ordine a cui aggiungere il numero del tavolo
-        Ordination order= this.ordinationRepository.findById(id).get();
-        //aggiungi il valore tableNumber
+        // ottieni l'ordine a cui aggiungere il numero del tavolo
+        Ordination order = this.ordinationRepository.findById(id).get();
+        // aggiungi il valore tableNumber
         order.setTableNumber(neworder.getTableNumber());
-        //rendi le modifiche persistenti
+        // rendi le modifiche persistenti
         this.ordinationRepository.save(order);
-        //aggiungi l'ordine aggiornato alla vista
+        // aggiungi l'ordine aggiornato alla vista
         model.addAttribute("order", order);
         return "staff/order.html";
     }
 
     @GetMapping("/formPayment")
     public String toFormPayment(Model model) {
-        //this.ordinationRepository.deleteByTableNumberIsNullOrTotalIsNull();
-        //this.ordinationRepository.deleteByTableNumberIsNullOrIsPaidIsNull();
+        //this.ordinationRepository.deleteByTableNumberIsNull();
+
         model.addAttribute("orders", this.ordinationRepository.findByIsPaid(false));
         return "staff/formPayment.html";
     }
 
     @GetMapping("/searchOrders")
-    public String searchOrders(Model model, @RequestParam Integer table) {
-        model.addAttribute("orders", this.ordinationRepository.findNotPaidTableTotalByTableNumber(table));
+    public String searchOrders(Model model, @RequestParam("tableNumber") Integer tableNumber) {
+        model.addAttribute("orders", this.ordinationRepository.findByTableNumberAndIsPaid(tableNumber, false));
         return "staff/formPayment.html";
     }
 
@@ -145,10 +146,10 @@ public class OrdinationController {
     public String toPayment(@PathVariable("id") Integer id, Model model) {
         List<Ordination> orders = this.ordinationRepository.findByTableNumberAndIsPaid(id, false);
         List<OrderItem> orderLines = new ArrayList<OrderItem>();
-        float total= 0;
+        float total = 0;
 
         for (Ordination order : orders) {
-            total= total + order.getTotal();
+            total = total + order.getTotal();
             for (OrderItem orderLine : order.getItems()) {
                 orderLines.add(orderLine);
             }
@@ -164,19 +165,19 @@ public class OrdinationController {
     public String toPayment(@PathVariable("id") Integer id) {
 
         Sale sale = new Sale();
-        ArrayList<Ordination> orders = new ArrayList<>(); 
-        
+        ArrayList<Ordination> orders = new ArrayList<>();
+
         float total = 0;
         this.saleRepository.save(sale);
 
-        for(Ordination order: this.ordinationRepository.findByTableNumberAndIsPaid(id, false)){
+        for (Ordination order : this.ordinationRepository.findByTableNumberAndIsPaid(id, false)) {
             order.setIsPaid(true);
             order.setSale(sale);
             total += order.getTotal();
             this.ordinationRepository.save(order);
             orders.add(order);
         }
-        
+
         sale.setDate(LocalDate.now());
         sale.setTime(LocalTime.now());
         sale.setTotal(total);

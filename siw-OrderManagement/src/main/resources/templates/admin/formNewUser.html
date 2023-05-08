@@ -19,7 +19,7 @@
         <div class="evenly-spacer">
             <div class="long box">
                 <div class="column">
-                    <img class="whide hoverable" src="svgs/chef.svg">
+                    <img class="whide hoverable" th:src="@{/svgs/chef.svg}">
                 </div>
 
                 <form method="POST" th:action="@{/admin/formNewUser}" class="column whide" th:object="${user}">

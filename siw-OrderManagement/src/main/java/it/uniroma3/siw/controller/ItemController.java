@@ -20,24 +20,7 @@ public class ItemController {
 	
 	@Autowired ItemRepository itemRepository;
 	@Autowired ItemValidator itemValidator;
-	
-	//sono presenti implementazioni di richieste momentanee, saranno spostate in ManagerController e StaffController
-	  /*@GetMapping("/index")
-	  public String toIndex() {
-	    return "index.html";
-	  }*/
-	  
-	  @GetMapping(value="/login")
-	  public String toLogin() {
-		  return "login.html";  
-	  }
-	  
-	  @GetMapping("/error")
-	  public String errorPage() {
-		  return "notFound.html";
-	  }
-	  
-	  ///
+
 	  @GetMapping("/admin/formNewItem")
 	  public String formNewItem(Model model){
 		  model.addAttribute("item", new Item());
