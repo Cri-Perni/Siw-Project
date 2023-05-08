@@ -38,8 +38,6 @@ public class AuthConfiguration{
         .requestMatchers(HttpMethod.GET, "/", "/index", "/login", "/css/**", "/svgs/**", "favicon.ico").permitAll()
         .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority(ADMIN_ROLE)
         .requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority(ADMIN_ROLE)
-        .requestMatchers(HttpMethod.GET, "/staff/**").hasAnyAuthority(DEFAULT_ROLE)
-        .requestMatchers(HttpMethod.POST, "/staff/**").hasAnyAuthority(DEFAULT_ROLE)
         .anyRequest().authenticated()
         .and().exceptionHandling().accessDeniedPage("/login")
         
@@ -48,7 +46,6 @@ public class AuthConfiguration{
         .defaultSuccessUrl("/success", true)
 
         .and().logout()
-
         .logoutUrl("/logout")
         .logoutSuccessUrl("/login").invalidateHttpSession(true)
         .deleteCookies("JSESSIONID")
