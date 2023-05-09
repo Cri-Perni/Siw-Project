@@ -11,9 +11,17 @@
 
 <body class="background">
 
-    <header style="display: flex; justify-content: center;">
-        <a th:href="@{/index}" class="title">SIW Order Management</a>
-    </header>
+    <div th:fragment="header">
+        <header>
+            <a th:href="@{/index}" class="title">SIW Order Management</a>
+
+            <a class="logout-button" th:href="@{/logout}">
+                <img class="logout-img" th:src="@{/pngs/logout.png}">
+                <div class="logout-text">nomeUtente:</div>
+                <div class="logout-text">LogOut</div>
+            </a>
+        </header>
+    </div>
 
     <main>
         <div class="evenly-spacer">

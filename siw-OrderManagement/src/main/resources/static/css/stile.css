@@ -77,6 +77,57 @@ li>a {
     display: block;
 }
 
+/*logout*/
+.logout-img {
+    width: 25px;
+    border-radius: 50px;
+    float: left;
+}
+
+.logout-text {
+    color:black;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 3px;
+    opacity: 0;
+    transition: opacity .45s;
+    -webkit-transition: opacity .35s;
+
+}
+
+.logout-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    float: right;
+    padding: 12px;
+    margin: 15px;
+    color: white;
+    width: 25px;
+    background-color: white;
+    transition: width .35s;
+    -webkit-transition: width .35s;
+    overflow: hidden;
+    border: 2px solid black;
+    border-radius: 25px;
+}
+
+a.logout-button:hover {
+    width: 220px;
+}
+
+a.logout-button:hover .logout-text {
+    opacity: .9;
+}
+
+a.logout-button {
+    text-decoration: none;
+}
+
 /*main*/
 main{
     margin-top: 10%;

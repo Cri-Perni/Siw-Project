@@ -12,47 +12,51 @@
 <body class="background">
 
     <header>
-        <a th:href="@{/index}" class="title"> SIW Order Management</a>
-        <nav>
-            <div class="dropdown">
-                <p>Portate</p>
-                <div class="dropdown-content">
-                    <a th:href="@{/admin/items}">Visualizza Tutti</a>
-                    <a th:href="@{/admin/formNewItem}">Nuova Portata</a>
-                    <a th:href="@{/admin/removeItemPage}">Rimuovi Portata</a>
-                    <a href="#">Gestisci Portate</a>
+        <div style="display: flex; align-items: center; min-width: 65%;">
+            <a th:href="@{/index}" class="title"> SIW Order Management</a>
+            <nav>
+                <div class="dropdown">
+                    <p>Portate</p>
+                    <div class="dropdown-content">
+                        <a th:href="@{/admin/items}">Visualizza Tutti</a>
+                        <a th:href="@{/admin/formNewItem}">Nuova Portata</a>
+                        <a th:href="@{/admin/removeItemPage}">Rimuovi Portata</a>
+                        <a href="#">Gestisci Portate</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="dropdown">
-                <p>Staff</p>
-                <div class="dropdown-content">
-                    <a th:href="@{/admin/users}">Visualizza Tutti</a>
-                    <a th:href="@{/admin/formNewUser}">Nuovo Membro</a>
-                    <a th:href="@{/admin/removeUserPage}">Rimuovi Membro</a>
+                <div class="dropdown">
+                    <p>Staff</p>
+                    <div class="dropdown-content">
+                        <a th:href="@{/admin/users}">Visualizza Tutti</a>
+                        <a th:href="@{/admin/formNewUser}">Nuovo Membro</a>
+                        <a th:href="@{/admin/removeUserPage}">Rimuovi Membro</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="dropdown">
-                <p>Obiettivi</p>
-                <div class="dropdown-content">
-                    <a href="#">Nuovo Obiettivo Settimanale</a>
-                    <a href="#">Nuovo Obiettivo Mensile</a>
+                <div class="dropdown">
+                    <p>Obiettivi</p>
+                    <div class="dropdown-content">
+                        <a href="#">Nuovo Obiettivo Settimanale</a>
+                        <a href="#">Nuovo Obiettivo Mensile</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="dropdown">
-                <p>Ordini</p>
-                <div class="dropdown-content">
-                    <a th:href="@{/formNewOrder}">Nuova Ordinazione</a>
-                    <a th:href="@{/formPayment}">Pagamento Ordini</a>
+                <div class="dropdown">
+                    <p>Ordini</p>
+                    <div class="dropdown-content">
+                        <a th:href="@{/formNewOrder}">Nuova Ordinazione</a>
+                        <a th:href="@{/formPayment}">Pagamento Ordini</a>
+                    </div>
                 </div>
-            </div>
+            </nav>
+        </div>
 
-            <div>
-                <p><a th:href="@{/logout}">Logout</a></p>
-            </div>
-        </nav>
+        <a class="logout-button" th:href="@{/logout}" style="margin-left: 20%;">
+            <img class="logout-img" th:src="@{/pngs/logout.png}">
+            <div class="logout-text">nomeUtente: </div>
+            <div class="logout-text">LogOut</div>
+        </a>
     </header>
 
     <main style="margin-top: 1%;">
@@ -128,12 +132,12 @@
             </div>
 
             <div class="column">
-				
-				<a th:href="@{/admin/sales}" class="link">
-                <div class="mini box hoverable">
-                    <h2>N. Vendite</h2>
-                    <h2 th:text="${totalSales}">10</h2>
-                </div>
+
+                <a th:href="@{/admin/sales}" class="link">
+                    <div class="mini box hoverable">
+                        <h2>N. Vendite</h2>
+                        <h2 th:text="${totalSales}">10</h2>
+                    </div>
                 </a>
 
                 <a th:href="@{/admin/formNewUser}" class="link">
@@ -149,7 +153,7 @@
                         <img th:src="@{/svgs/removeMember.svg}" class="nano">
                     </div>
                 </a>
-                
+
             </div>
         </div>
 
