@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Admin Menu</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header>
+        <a th:href="@{/index}" class="title"> SIW Order Management</a>
+        <nav>
+            <div class="dropdown">
+                <p>Portate</p>
+                <div class="dropdown-content">
+                    <a th:href="@{/items}">Visualizza Tutti</a>
+                    <a th:href="@{/formNewItem}">Nuova Portata</a>
+                    <a th:href="@{/removeItemPage}">Rimuovi Portata</a>
+                    <a href="#">Gestisci Portate</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <p>Staff</p>
+                <div class="dropdown-content">
+                    <a th:href="@{/users}">Visualizza Tutti</a>
+                    <a th:href="@{/formNewUser}">Nuovo Membro</a>
+                    <a th:href="@{/removeUserPage}">Rimuovi Membro</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <p>Obiettivi</p>
+                <div class="dropdown-content">
+                    <a href="#">Nuovo Obiettivo Settimanale</a>
+                    <a href="#">Nuovo Obiettivo Mensile</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main style="margin-top: 1%;">
+        <div class="evenly-spacer">
+
+            <div class="column">
+                <h1 class="title">Obiettivo Settimanale: 50/100</h1>
+                <h1 class="title">Obiettivo Mensile: 50/100</h1>
+            </div>
+
+            <div class="column">
+                <progress max="100" value="50"></progress>
+                <progress max="100" value="50"></progress>
+            </div>
+
+            <div class="column">
+                <button>Cambia Obiettivo</button>
+                <button>Cambia Obiettivo</button>
+            </div>
+
+        </div>
+
+        <div class="evenly-spacer" style="margin-top: 1%;">
+            <div class="column">
+                <a th:href="@{/formNewItem}" class="link">
+                    <div class="small box hoverable">
+                        <h2>Nuovo Prodotto</h2>
+                        <img th:src="@{/svgs/newFood.svg}" class="mini">
+                    </div>
+                </a>
+
+                <a th:href="@{/removeItemPage}" class="link">
+                    <div class="small box hoverable">
+                        <h2>Rimuovi Prodotto</h2>
+                        <img th:src="@{/svgs/removeFood.svg}" class="mini">
+                    </div>
+                </a>
+            </div>
+
+            <div class="column">
+                <h2 th:text="'I Pi' + &ugrave + ' Venduti'">I Più Venduti</h2>
+                <div>
+                    <div class="margin flexbox">
+                        <div class="mini box">
+                            <img th:if="${item1}" th:src="${item1.urlImage}">
+                        </div>
+                        <div class="lateral-margin column">
+                            <h2 th:if="${item1}" th:text="${item1.description}">Prodotto N1</h2>
+                            <h2 th:unless="${item1}" th:text="'Nessun Prodotto'">Prodotto N1</h2>
+                        </div>
+                    </div>
+
+                    <div class="margin flexbox">
+                        <div class="mini box">
+                            <img th:if="${item2}" th:src="${item2.urlImage}">
+                        </div>
+                        <div class="lateral-margin column">
+                            <h2 th:if="${item2}" th:text="${item2.description}">Prodotto N2</h2>
+                            <h2 th:unless="${item2}" th:text="'Nessun Prodotto'">Prodotto N2</h2>
+                        </div>
+                    </div>
+
+                    <div class="margin flexbox">
+                        <div class="mini box">
+                            <img th:if="${item3}" th:src="${item3.urlImage}">
+                        </div>
+                        <div class="lateral-margin column">
+                            <h2 th:if="${item3}" th:text="${item3.description}">Prodotto N3</h2>
+                            <h2 th:unless="${item3}" th:text="'Nessun Prodotto'">Prodotto N3</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+				
+				<a th:href="@{/sales}" class="link">
+                <div class="mini box hoverable">
+                    <h2>N. Vendite</h2>
+                    <h2 th:text="${totalSales}">10</h2>
+                </div>
+                </a>
+
+                <a th:href="@{/formNewUser}" class="link">
+                    <div class="mini box hoverable">
+                        <h3>Nuovo Membro</h3>
+                        <img th:src="@{/svgs/newMember.svg}" class="nano">
+                    </div>
+                </a>
+
+                <a th:href="@{/removeUserPage}" class="link">
+                    <div class="mini box hoverable">
+                        <h3>Rimuovi Membro</h3>
+                        <img th:src="@{/svgs/removeMember.svg}" class="nano">
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

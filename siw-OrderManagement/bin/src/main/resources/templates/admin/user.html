@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Membro Staff</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header style="display: flex; justify-content: center;">
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
+    </header>
+
+    <main style="margin-top: 1%;">
+        <div class="evenly-spacer">
+            <div class="large box">
+                <!--- <img th:src="${user.urlImage}" class="small"> -->
+                <h2 th:text="${user.name} + ' ' + ${user.surname}">Nome Cognome</h2>  
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

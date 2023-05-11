@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Login</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header style="display: flex; justify-content: center;">
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
+    </header>
+
+    <main>
+        <div class="evenly-spacer">
+            <div class="long box">
+                <div class="column">
+                    <img class="whide hoverable" th:src="@{/svgs/login.svg}">
+                </div>
+                <form action="" class="column whide">
+                    <h2 class="title">Login</h2>
+                    <div class="input-content">
+                        <input type="text" placeholder="e-mail" class="form-input">
+                        <input type="text" placeholder="password" class="form-input">
+                        <!--- <input type="text" placeholder="dato 3" class="form-input"> -->
+                    </div>
+                    <br>
+                    <input type="submit" class="submit">
+                    <h3 class="error">Errore</h3>
+                </form>
+            </div>
+        </div>
+        <div class="evenly-spacer" style="margin-top: 1%;">
+           <a th:href="@{/managerPage}"> Registra un nuovo Utente</a> 
+        </div>
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Nuovo Ordine</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header style="display: flex; justify-content: center;">
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
+    </header>
+
+    <main style="margin-top: 1%;">
+
+        <div class="evenly-spacer">
+            <div class="column">
+                <div style="margin-top: 2%; overflow-y: scroll;">
+                    <div class="wrap item-container">
+                        <a th:each="item: ${items}" th:href="@{'/addItemToOrder/'+${order.id}+'/'+${item.id}}"
+                            class="link">
+                            <div class="hoverable small box margin">
+                                <img th:src="${item.urlImage}" class="nano">
+                                <h2 th:text="${item.description} + ' ' + ${item.price}">Nome Portata</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recap-box column box">
+                <h2 class="title">Riepilogo Ordine</h2>
+
+                <div class="orderbox">
+                    <div th:each="orderLine: ${order.items}">
+                        <h2 th:text="${orderLine.item.description} + ' ' + ${orderLine.quantity}">Nome Portata</h2>
+                    </div>
+                </div>
+
+                <div class="width">
+                    <h2 th:text="'Totale Ordine: ' + ${order.total}">Totale: Prezzo</h2>
+                </div>
+
+                <div class="evenly-spacer">
+                    <a th:href="@{'/cancelOrder/'+ ${order.id}}">
+                        <button>Annulla Ordine</button>
+                    </a>
+
+                    <form method="POST" th:action="@{/order/{id}(id=${order.id})}" th:object="${order}" class="flex">
+                        <input required type="text" placeholder="N. Tavolo" class="button-sized form-input"
+                            th:field="${order.tableNumber}">
+                        <input type="submit" class="submit" value="Conferma">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

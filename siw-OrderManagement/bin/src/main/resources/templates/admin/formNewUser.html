@@ -6,43 +6,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIW Order -Nuovo Membro Staff</title>
-    <link rel="stylesheet" th:href="@{/css/stile.css}">
+    <link rel="stylesheet" th:href="@{/stile.css}">
 </head>
 
 <body class="background">
 
-    <div th:insert="~{/staff/waiterMenu.html :: header}"> </div>
+    <header style="display: flex; justify-content: center;">
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
+    </header>
 
     <main>
         <div class="evenly-spacer">
             <div class="long box">
                 <div class="column">
-                    <img class="whide hoverable" th:src="@{/svgs/chef.svg}">
+                    <img class="whide hoverable" src="svgs/chef.svg">
                 </div>
 
-                <form method="POST" th:action="@{/admin/formNewUser}" class="column whide" th:object="${user}">
+                <form method="POST" th:action="@{/formNewUser}" class="column whide" th:object="${user}">
                     <h2 class="title">Nuovo Membro Staff</h2>
 
                     <div class="input-content">
 
                         <input type="text" placeholder="Nome" class="form-input" th:field="${user.name}">
-                        <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        <!--- <span class="error" th:if="${#fields.hasErrors('user.name')}" th:errors="${user.name}"></span> -->
 
                         <input type="text" placeholder="Cognome" class="form-input" th:field="${user.surname}">
-                        <span class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+                        <!--- <span class="error" th:if="${#fields.hasErrors('user.surname')}" th:errors="${user.surname}"></span> -->
 
                         <input type="email" placeholder="e-mail" class="form-input" th:field="${user.email}">
-                        <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                        <!--- <span class="error" th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}"></span> -->
 
                         <input type="text" placeholder="username" class="form-input"
                             th:field="${user.credentials.username}">
                         <span class="error" th:if="${#fields.hasErrors('credentials.username')}"
-                            th:errors="*{credentials.username}"></span>
+                            th:errors="${credentials.username}"></span>
 
                         <input type="password" placeholder="password" class="form-input"
                             th:field="${user.credentials.password}">
                         <span class="error" th:if="${#fields.hasErrors('credentials.password')}"
-                            th:errors="*{credentials.password}"></span>
+                            th:errors="${credentials.password}"></span>
+
+                        <!--<input type="url" placeholder="URL Immagine" class="form-input" th:field="${staff.urlImage}">-->
                     </div>
 
                     <input type="submit" class="submit">

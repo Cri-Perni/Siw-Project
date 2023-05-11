@@ -18,6 +18,8 @@ import it.uniroma3.siw.repository.SaleRepository;
 import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
+import it.uniroma3.siw.validator.CredentialsValidator;
+import it.uniroma3.siw.validator.UserValidator;
 import jakarta.validation.Valid;
 
 @Controller
@@ -33,6 +35,10 @@ public class AuthenticationController {
     private SaleRepository saleRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private UserValidator userValidator;
+    @Autowired
+    private CredentialsValidator credentialsValidator;
     @Autowired
     private UserService userService;
 
@@ -56,14 +62,13 @@ public class AuthenticationController {
     @PostMapping(value = { "/admin/formNewUser" })
     public String registerUser(@Valid @ModelAttribute("user") User user,
             BindingResult userBindingResult, @Valid @ModelAttribute("credentials") Credentials credentials,
-            BindingResult credentialsBindingResult,
-            Model model) {
-
+            BindingResult credentialsBindingResult, Model model) {
+        this.userValidator.validate(user, userBindingResult);
+        // this.credentialsValidator.validate(user.getCredentials(),credentialsBindingResult);
         // se user e credential hanno entrambi contenuti validi, memorizza User e le
         // Credentials nel DB
-        if (!userBindingResult.hasErrors() /* && ! credentialsBindingResult.hasErrors() */) {
-            // credentials.setUser(user);
-            credentialsService.saveCredentials(user.getCredentials()/* credentials */);
+        if (!userBindingResult.hasErrors() && !credentialsBindingResult.hasErrors()) {
+            credentialsService.saveCredentials(user.getCredentials());
 
             user.getCredentials().setUser(user);
             userService.saveUser(user);

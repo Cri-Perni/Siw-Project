@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Order -Tutti i Membri Staff</title>
+    <link rel="stylesheet" th:href="@{/stile.css}">
+</head>
+
+<body class="background">
+
+    <header style="display: flex; justify-content: center;">
+        <a th:href="@{/index}" class="title">SIW Order Management</a>
+    </header>
+
+    <main style="margin-top: 1%;">
+        <div class="evenly-spacer">
+            <h1 th:if="!${users.isEmpty()}" class="title">Tutti i Membri dello Staff</h1>
+            <h1 th:unless="!${users.isEmpty()}" class="title">Non ci sono Membri dello Staff</h1>
+        </div>
+
+        <div style="overflow-x: scroll; margin-top: 10%;">
+            <div style="display: flex;">
+
+                <a th:each="user: ${users}" th:href="@{'/user' + '/' + ${user.id} }" class="link">
+                    <div class="hoverable small box lateral-margin">
+                       <!-- <img th:src="${member.urlImage}" class="nano">-->
+                        <h2 th:text="${user.name} + ' ' + ${user.lastName}">Nome Cognome</h2>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>
