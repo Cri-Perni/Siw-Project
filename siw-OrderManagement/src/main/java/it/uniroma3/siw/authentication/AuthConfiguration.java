@@ -28,6 +28,7 @@ public class AuthConfiguration{
     @Autowired
 	DataSource dataSource;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         
@@ -60,6 +61,8 @@ public class AuthConfiguration{
         provider.setUserDetailsService(userDetailsService());
         return provider;
     }
+
+
 
     @Bean
     public UserDetailsService userDetailsService() {
