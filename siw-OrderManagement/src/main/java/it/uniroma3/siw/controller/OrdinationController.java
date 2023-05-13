@@ -36,6 +36,19 @@ public class OrdinationController {
     @Autowired
     SaleRepository saleRepository;
 
+    void deleteNullOrders(){
+        List<Ordination> ordersToDelete = this.ordinationRepository.findByTableNumberIsNull();
+
+        for(Ordination order: ordersToDelete){
+            for(OrderItem orderLine: order.getItems()){
+                orderLine.getItem().getOrder().remove(orderLine); //scollega la portata dalla riga di ordine
+                orderLine.setItem(null); //scollega la riga di ordine dalla portata
+                this.orderItemRepository.delete(orderLine); // rimuovi la riga di ordine
+            }
+            this.ordinationRepository.delete(order); // rimuovi l'ordine
+        }
+    }
+
     @GetMapping("/cancelOrder/{id}")
     public String cancelOrder(@PathVariable("id") Long id, Model model) {
 
@@ -130,7 +143,7 @@ public class OrdinationController {
 
     @GetMapping("/formPayment")
     public String toFormPayment(Model model) {
-        //this.ordinationRepository.deleteByTableNumberIsNull();
+        deleteNullOrders();
 
         model.addAttribute("orders", this.ordinationRepository.findByIsPaid(false));
         return "staff/formPayment.html";
