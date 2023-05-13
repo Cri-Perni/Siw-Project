@@ -1,6 +1,8 @@
 package it.uniroma3.siw.controller;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class AdminController {
         
         /*Per la stampa del numero di vendite totali*/
         model.addAttribute("totalSales", saleRepository.count());
+        /*vengono calcolati i profitti settimanali e mensili e sono aggiunti al template*/
+        model.addAttribute("weeklyProfit", saleRepository.getTotalProfitSince(LocalDate.now().minusMonths(1)));
+        model.addAttribute("monthlyProfit", saleRepository.getTotalProfitSince(LocalDate.now().minusWeeks(1)));
     }
 
     @GetMapping("/admin/managerPage")

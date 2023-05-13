@@ -63,18 +63,17 @@
         <div class="evenly-spacer">
 
             <div class="column">
-                <h1 class="title">Obiettivo Settimanale: 50/100</h1>
-                <h1 class="title">Obiettivo Mensile: 50/100</h1>
+                <h1 class="title" th:text="'Obiettivo Mensile: '+ ${weeklyProfit} +'/1000'">Obiettivo Settimanale</h1>
+                <h1 class="title" th:text="'Obiettivo Mensile: '+ ${monthlyProfit} +'/50000'">Obiettivo Mensile</h1>
             </div>
 
             <div class="column">
-                <progress max="100" value="50"></progress>
-                <progress max="100" value="50"></progress>
+                <progress th:if="${weeklyProfit}" max="1000" th:value="${weeklyProfit}"></progress>
+                <progress th:if="${monthlyProfit}" max="50000" th:value="${monthlyProfit}"></progress>
             </div>
 
             <div class="column">
-                <button>Cambia Obiettivo</button>
-                <button>Cambia Obiettivo</button>
+                <h1 class="title" th:unless="${weeklyProfit} OR ${monthlyProfit}">Inserisci delle vendite per analizzare i grafici</h1>
             </div>
 
         </div>

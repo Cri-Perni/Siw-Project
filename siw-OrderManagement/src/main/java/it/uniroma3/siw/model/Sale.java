@@ -19,12 +19,11 @@ public class Sale {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-
 	private LocalDate date;
 
 	private LocalTime time;
 	
-	private Float Total;
+	private Float total;
 	
 	@OneToMany(mappedBy="sale")
 	private List<Ordination> orders;
@@ -56,11 +55,11 @@ public class Sale {
 	}
 
 	public Float getTotal() {
-		return Total;
+		return total;
 	}
 
 	public void setTotal(Float total) {
-		Total = total;
+		total = total;
 	}
 
 	public List<Ordination> getOrders() {
@@ -73,7 +72,7 @@ public class Sale {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Total, date, id, orders, time);
+		return Objects.hash(total, date, id, orders, time);
 	}
 
 	@Override
@@ -85,7 +84,7 @@ public class Sale {
 		if (getClass() != obj.getClass())
 			return false;
 		Sale other = (Sale) obj;
-		return Objects.equals(Total, other.Total) && Objects.equals(date, other.date) && Objects.equals(id, other.id)
+		return Objects.equals(total, other.total) && Objects.equals(date, other.date) && Objects.equals(id, other.id)
 				&& Objects.equals(orders, other.orders) && Objects.equals(time, other.time);
 	}
 	

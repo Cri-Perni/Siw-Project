@@ -36,39 +36,18 @@ public class OrdinationController {
     @Autowired
     SaleRepository saleRepository;
 
-    void deleteNullOrders(){
-        List<Ordination> ordersToDelete = this.ordinationRepository.findByTableNumberIsNull();
-
-        for(Ordination order: ordersToDelete){
-            for(OrderItem orderLine: order.getItems()){
-                orderLine.getItem().getOrder().remove(orderLine); //scollega la portata dalla riga di ordine
-                orderLine.setItem(null); //scollega la riga di ordine dalla portata
-                this.orderItemRepository.delete(orderLine); // rimuovi la riga di ordine
-            }
-            this.ordinationRepository.delete(order); // rimuovi l'ordine
-        }
-    }
-
     @GetMapping("/cancelOrder/{id}")
     public String cancelOrder(@PathVariable("id") Long id, Model model) {
 
         Ordination order = this.ordinationRepository.findById(id).get();
-        List<Item> items = new ArrayList<>();
 
-        // scollega le righe di ordine dalle portate
-        for (OrderItem orderItem : order.getItems()) {
-            items.add(orderItem.getItem());
-            orderItem.setItem(null);
+        for(OrderItem orderLine: order.getItems()){
+            orderLine.getItem().getOrder().remove(orderLine); //scollega la portata dalla riga di ordine
+            orderLine.setItem(null); //scollega la riga di ordine dalla portata
+            this.orderItemRepository.delete(orderLine); // rimuovi la riga di ordine
         }
+        this.ordinationRepository.delete(order); // rimuovi l'ordine
 
-        // scollega le portate dalle righe di ordine
-        for (Item item : items) {
-            item.getOrder().removeAll(order.getItems());
-        }
-
-        // rimuovi le righe di ordine e infine l'ordine
-        this.orderItemRepository.deleteAll(this.ordinationRepository.findById(id).get().getItems());
-        this.ordinationRepository.deleteById(id);
         return "staff/waiterMenu.html";
     }
 
@@ -143,8 +122,9 @@ public class OrdinationController {
 
     @GetMapping("/formPayment")
     public String toFormPayment(Model model) {
-        deleteNullOrders();
-
+        // elimina tutte le righe ordine e gli ordini che fanno riferimento ad un tavolo nullo
+        this.ordinationRepository.deleteAll(this.ordinationRepository.findByTableNumberIsNull());
+         
         model.addAttribute("orders", this.ordinationRepository.findByIsPaid(false));
         return "staff/formPayment.html";
     }
