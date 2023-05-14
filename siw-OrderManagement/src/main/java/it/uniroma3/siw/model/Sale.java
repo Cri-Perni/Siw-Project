@@ -59,7 +59,7 @@ public class Sale {
 	}
 
 	public void setTotal(Float total) {
-		total = total;
+		this.total = total;
 	}
 
 	public List<Ordination> getOrders() {

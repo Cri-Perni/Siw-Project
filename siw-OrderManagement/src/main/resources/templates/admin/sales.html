@@ -16,7 +16,7 @@
     <main class="evenly-spacer" style="margin-top: 1%;">
         <div class="tall column box">
                 <h2 class="title">Tutte Le Vendite</h2>
-
+                
                 <div class="orderbox">
                     <div th:each="sale: ${sales}">
                         <h2 th:text="'Vendita del giorno: ' + ${sale.date} + ' Ora: ' + ${sale.time} + ' Totale: '+ ${sale.total}">Vendita Data Ora Totale</h2>

@@ -24,8 +24,15 @@
 
                 <a th:each="user: ${users}" th:href="@{'/admin/removeUser' + '/' + ${user.id} }" class="link">
                     <div class="hoverable small box lateral-margin">
-                        <!--- <img th:src="${user.urlImage}" class="nano"> -->
                         <h2 th:text="${user.name} + ' ' + ${user.surname}">Nome Cognome</h2>
+                        <div class="column">
+                            <div>
+                                <hr>
+                                <h2 th:text="${user.email}" style="font-size: 1rem;"></h2>
+                                <h2 th:text="'Username: '+${user.credentials.username}" style="font-size: 1rem;"></h2>
+                                <h2 th:text="'Ruolo: '+${user.credentials.role}" style="font-size: 1rem;"></h2>
+                            </div>
+                        </div>
                     </div>
                 </a>
             </div>

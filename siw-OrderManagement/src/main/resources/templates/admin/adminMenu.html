@@ -21,7 +21,7 @@
                         <a th:href="@{/admin/items}">Visualizza Tutti</a>
                         <a th:href="@{/admin/formNewItem}">Nuova Portata</a>
                         <a th:href="@{/admin/removeItemPage}">Rimuovi Portata</a>
-                        <a href="#">Gestisci Portate</a>
+                        <a th:href="@{/admin/editItemPage}">Gestisci Portate</a>
                     </div>
                 </div>
 
@@ -31,14 +31,6 @@
                         <a th:href="@{/admin/users}">Visualizza Tutti</a>
                         <a th:href="@{/admin/formNewUser}">Nuovo Membro</a>
                         <a th:href="@{/admin/removeUserPage}">Rimuovi Membro</a>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <p>Obiettivi</p>
-                    <div class="dropdown-content">
-                        <a href="#">Nuovo Obiettivo Settimanale</a>
-                        <a href="#">Nuovo Obiettivo Mensile</a>
                     </div>
                 </div>
 
@@ -63,8 +55,8 @@
         <div class="evenly-spacer">
 
             <div class="column">
-                <h1 class="title" th:text="'Obiettivo Mensile: '+ ${weeklyProfit} +'/1000'">Obiettivo Settimanale</h1>
-                <h1 class="title" th:text="'Obiettivo Mensile: '+ ${monthlyProfit} +'/50000'">Obiettivo Mensile</h1>
+                <h1 class="title" th:if="${weeklyProfit}" th:text="'Obiettivo Mensile: '+ ${weeklyProfit} +'/1000'">Obiettivo Settimanale</h1>
+                <h1 class="title" th:if="${monthlyProfit}" th:text="'Obiettivo Mensile: '+ ${monthlyProfit} +'/50000'">Obiettivo Mensile</h1>
             </div>
 
             <div class="column">
