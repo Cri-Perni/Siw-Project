@@ -17,7 +17,7 @@
 
             <a class="logout-button" th:href="@{/logout}">
                 <img class="logout-img" th:src="@{/pngs/logout.png}">
-                <div class="logout-text">nomeUtente:</div>
+                <div class="logout-text" sec:authentication="name">nomeUtente:</div>
                 <div class="logout-text">LogOut</div>
             </a>
         </header>

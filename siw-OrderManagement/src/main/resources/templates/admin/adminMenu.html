@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -46,9 +46,10 @@
 
         <a class="logout-button" th:href="@{/logout}" style="margin-left: 20%;">
             <img class="logout-img" th:src="@{/pngs/logout.png}">
-            <div class="logout-text">nomeUtente: </div>
+            <div class="logout-text" sec:authentication="name" >nomeUtente: </div>
             <div class="logout-text">LogOut</div>
         </a>
+
     </header>
 
     <main style="margin-top: 1%;">
