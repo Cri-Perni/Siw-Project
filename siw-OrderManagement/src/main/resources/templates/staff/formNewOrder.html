@@ -22,7 +22,7 @@
                         <a th:each="item: ${items}" th:href="@{'/addItemToOrder/'+${order.id}+'/'+${item.id}}"
                             class="link">
                             <div class="hoverable small box margin">
-                                <img th:src="${item.urlImage}" class="nano">
+                                <img th:src="@{'data:image;base64,' + ${item.imageString}}" class="nano">
                                 <h2 th:text="${item.description} + ' ' + ${item.price}">Nome Portata</h2>
                             </div>
                         </a>

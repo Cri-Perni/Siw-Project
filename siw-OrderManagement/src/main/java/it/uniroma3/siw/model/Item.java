@@ -64,11 +64,11 @@ public class Item {
 		this.order = order;
 	}
 
-	public String getimageString() {
+	public String getImageString() {
 		return imageString;
 	}
 
-	public void setimageString(String imageString) {
+	public void setImageString(String imageString) {
 		this.imageString = imageString;
 	}
 	@Override

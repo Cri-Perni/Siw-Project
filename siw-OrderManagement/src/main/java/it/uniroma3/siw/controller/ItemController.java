@@ -45,10 +45,10 @@ public class ItemController {
 	public String newMovie(@Valid @ModelAttribute("item") Item item,@RequestParam("image") MultipartFile image, BindingResult bindingResult, Model model) {
 		this.itemValidator.validate(item, bindingResult);
 		if (!bindingResult.hasErrors()) {
-			// prova slavtaggio immagine
+			// prova salvtaggio immagine
 			try{
 			String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-			item.setimageString(base64Image);
+			item.setImageString(base64Image);
 			}catch(IOException e){}
 
 			this.itemRepository.save(item);
@@ -116,7 +116,7 @@ public class ItemController {
 			item.setPrice(newitem.getPrice());
 			try{
 				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-				item.setimageString(base64Image);
+				item.setImageString(base64Image);
 				}catch(IOException e){}
 
 			this.itemRepository.save(item);

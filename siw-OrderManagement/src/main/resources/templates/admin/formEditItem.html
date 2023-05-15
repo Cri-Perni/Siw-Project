@@ -30,7 +30,9 @@
                     <input type="text" placeholder="Nuovo Prezzo" class="form-input" th:field="${item.price}">
                     <span class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                 
-                    <input type="file" class="form-input" th:name="image">
+                    <div class="file-input form-input column">
+                        <input type="file" th:name="image">
+                    </div>
                </div>
                
                 <input type="submit" class="submit">
