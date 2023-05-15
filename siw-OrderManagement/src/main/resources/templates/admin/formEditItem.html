@@ -17,10 +17,10 @@
         <div class="evenly-spacer">
             <div class="long box">
                 <div class="column">
-                    <img class="whide hoverable" th:src="${item.urlImage}" style="border-radius: 5px;">
+                    <img class="whide hoverable"  th:src="@{'data:image;base64,' + ${item.imageString}}" style="border-radius: 5px;">
                 </div>
                 
-                <form method="POST" th:action="@{/admin/editItem/{id}(id=${item.id})}" th:object="${item}" class="column whide">
+                <form method="POST" th:action="@{/admin/editItem/{id}(id=${item.id})}" th:object="${item}" class="column whide" enctype="multipart/form-data">
                 <h2 class="title">Modifica Portata</h2>
             
                 <div class="input-content">
@@ -30,7 +30,7 @@
                     <input type="text" placeholder="Nuovo Prezzo" class="form-input" th:field="${item.price}">
                     <span class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                 
-                    <input type="url" placeholder="Nuovo URL Immagine" class="form-input" th:field="${item.urlImage}">
+                    <input type="file" class="form-input" th:name="image">
                </div>
                
                 <input type="submit" class="submit">

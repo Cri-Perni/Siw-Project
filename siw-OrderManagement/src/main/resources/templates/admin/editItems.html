@@ -24,7 +24,7 @@
 
                 <a th:each="item: ${items}" th:href="@{'/admin/editItem/' + ${item.id} }" class="link">
                     <div class="hoverable small box lateral-margin">
-                        <img th:src="${item.urlImage}" class="nano">
+                        <img th:src="@{'data:image;base64,' + ${item.imageString}}" class="nano">
                         <div>
                             <h2 th:text="${item.description}" style="font-size: 1rem;">Nome Portata</h2>
                             <h2 th:text="'Prezzo: '+ ${item.price}" style="font-size: 1rem;">Prezzo</h2>

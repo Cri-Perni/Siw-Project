@@ -20,7 +20,7 @@
                     <img class="whide hoverable" th:src="@{/svgs/food.svg}">
                 </div>
                 
-                <form method="POST" th:action="@{/admin/newItem}" th:object="${item}" class="column whide">
+                <form method="POST" th:action="@{/admin/newItem}" th:object="${item}" class="column whide" enctype="multipart/form-data">
                 <h2 class="title">Nuova Portata</h2>
             
                 <div class="input-content">
@@ -30,7 +30,7 @@
                     <input type="text" placeholder="Prezzo" class="form-input" th:field="${item.price}">
                     <span class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                 
-                    <input type="url" placeholder="URL Immagine" class="form-input" th:field="${item.urlImage}">
+                    <input type="file"  th:name="image">
                </div>
                
                 <input type="submit" class="submit">

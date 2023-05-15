@@ -93,7 +93,7 @@
                 <div>
                     <div class="margin flexbox">
                         <div class="mini box">
-                            <img th:if="${item1}" style="border-radius: 5px;" th:src="${item1.urlImage}">
+                            <img th:if="${item1}" style="border-radius: 5px;" th:src="@{'data:image;base64,' + ${item1.imageString}}">
                         </div>
                         <div class="lateral-margin column">
                             <h2 th:if="${item1}" th:text="${item1.description}">Prodotto N1</h2>
@@ -103,7 +103,7 @@
 
                     <div class="margin flexbox">
                         <div class="mini box">
-                            <img th:if="${item2}" style="border-radius: 5px;" th:src="${item2.urlImage}">
+                            <img th:if="${item2}" style="border-radius: 5px;" th:src="@{'data:image;base64,' + ${item2.imageString}}">
                         </div>
                         <div class="lateral-margin column">
                             <h2 th:if="${item2}"  th:text="${item2.description}">Prodotto N2</h2>
@@ -113,7 +113,7 @@
 
                     <div class="margin flexbox">
                         <div class="mini box">
-                            <img th:if="${item3}" style="border-radius: 5px;" th:src="${item3.urlImage}">
+                            <img th:if="${item3}" style="border-radius: 5px;" th:src="@{'data:image;base64,' + ${item3.imageString}}">
                         </div>
                         <div class="lateral-margin column">
                             <h2 th:if="${item3}" th:text="${item3.description}">Prodotto N3</h2>

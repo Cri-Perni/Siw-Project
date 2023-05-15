@@ -17,7 +17,7 @@
         <div class="evenly-spacer">
             <div class="large box">
                 <div class="column">
-                    <img th:src="${item.urlImage}" class="small">
+                    <img  th:src="@{'data:image;base64,' + ${item.imageString}}" class="small">
                     <div>
                         <hr>
                         <h2 th:text="${item.description}">Nome Portata</h2>

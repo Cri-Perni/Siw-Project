@@ -1,11 +1,23 @@
 package it.uniroma3.siw.controller;
 
+import java.io.Console;
+import java.io.IOException;
+import java.util.Base64;
+
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -30,9 +42,15 @@ public class ItemController {
 	}
 
 	@PostMapping("/admin/newItem")
-	public String newMovie(@Valid @ModelAttribute("item") Item item, BindingResult bindingResult, Model model) {
+	public String newMovie(@Valid @ModelAttribute("item") Item item,@RequestParam("image") MultipartFile image, BindingResult bindingResult, Model model) {
 		this.itemValidator.validate(item, bindingResult);
 		if (!bindingResult.hasErrors()) {
+			// prova slavtaggio immagine
+			try{
+			String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+			item.setimageString(base64Image);
+			}catch(IOException e){}
+
 			this.itemRepository.save(item);
 			model.addAttribute("item", item);
 			return "admin/item.html";
@@ -87,7 +105,7 @@ public class ItemController {
 	}
 
 	@PostMapping("/admin/editItem/{id}")
-	public String saveItemChanges(@PathVariable Long id, @Valid @ModelAttribute Item newitem,
+	public String saveItemChanges(@PathVariable Long id,@RequestParam("image") MultipartFile image, @Valid @ModelAttribute Item newitem,
 			BindingResult bindingResult, Model model) {
 		this.itemValidator.validate(newitem, bindingResult);
 
@@ -96,13 +114,15 @@ public class ItemController {
 
 			item.setDescription(newitem.getDescription());
 			item.setPrice(newitem.getPrice());
-			item.setUrlImage(newitem.getUrlImage());
+			try{
+				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+				item.setimageString(base64Image);
+				}catch(IOException e){}
 
 			this.itemRepository.save(item);
 			model.addAttribute("item", item);
 			return "admin/item.html";
-		} 
-		else {
+		} else {
 			model.addAttribute("item", newitem);
 			return "admin/formEditItem.html";
 		}

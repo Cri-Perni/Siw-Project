@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +26,8 @@ public class Item {
 	@NotNull
 	private Float price;
 
-	private String urlImage;
+	@Lob
+	private String imageString;
 
 	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
 	List<OrderItem> order;
@@ -62,17 +64,16 @@ public class Item {
 		this.order = order;
 	}
 
-	public String getUrlImage() {
-		return urlImage;
+	public String getimageString() {
+		return imageString;
 	}
 
-	public void setUrlImage(String urlImage) {
-		this.urlImage = urlImage;
+	public void setimageString(String imageString) {
+		this.imageString = imageString;
 	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, id, order, price, urlImage);
+		return Objects.hash(description, id, order, price, imageString);
 	}
 
 	@Override
@@ -86,7 +87,9 @@ public class Item {
 		Item other = (Item) obj;
 		return Objects.equals(description, other.description) && Objects.equals(id, other.id)
 				&& Objects.equals(order, other.order) && Objects.equals(price, other.price)
-				&& Objects.equals(urlImage, other.urlImage);
+				&& Objects.equals(imageString, other.imageString);
 	}
+
+
 
 }
