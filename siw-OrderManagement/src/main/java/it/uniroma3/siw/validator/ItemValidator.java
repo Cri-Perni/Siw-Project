@@ -18,7 +18,7 @@ import it.uniroma3.siw.repository.ItemRepository;
 		  public void validate(Object o, Errors errors) {
 			Item item = (Item)o;
 		    if (item.getDescription()!=null && item.getPrice()!=null
-				&& movieRepository.existsByDescriptionAndPrice(item.getDescription(), item.getPrice())) {
+				&& movieRepository.existsByDescriptionAndPriceAndImageString(item.getDescription(), item.getPrice(), item.getImageString())) {
 		      errors.reject("item.duplicate");
 		    }
 		   }

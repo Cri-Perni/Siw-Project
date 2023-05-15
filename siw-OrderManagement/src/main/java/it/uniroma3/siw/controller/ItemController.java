@@ -114,6 +114,7 @@ public class ItemController {
 
 			item.setDescription(newitem.getDescription());
 			item.setPrice(newitem.getPrice());
+			
 			try{
 				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
 				item.setImageString(base64Image);

@@ -3,6 +3,7 @@ package it.uniroma3.siw.validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import it.uniroma3.siw.model.User;
@@ -20,6 +21,10 @@ public class UserValidator implements Validator {
 		if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
 			errors.reject("user.duplicate");
 		}
+
+		 // Validazione specifica per le credenziali
+		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "credentials.username", "NotBlank");
+		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "credentials.password", "NotBlank");
 	}
 
 	@Override

@@ -18,6 +18,8 @@ import it.uniroma3.siw.repository.SaleRepository;
 import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
+import it.uniroma3.siw.validator.CredentialsValidator;
+import it.uniroma3.siw.validator.UserValidator;
 import jakarta.validation.Valid;
 
 @Controller
@@ -26,6 +28,9 @@ public class AuthenticationController {
     @Autowired
     private CredentialsService credentialsService;
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private ItemRepository itemRepository;
@@ -33,8 +38,11 @@ public class AuthenticationController {
     private SaleRepository saleRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+
     @Autowired
-    private UserService userService;
+    private UserValidator userValidator;
+    @Autowired
+    private CredentialsValidator credentialsValidator;
 
     @GetMapping("/error")
     public String errorPage() {
@@ -54,24 +62,20 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = { "/admin/formNewUser" })
-    public String registerUser(@Valid @ModelAttribute("user") User user,
-            BindingResult userBindingResult, @Valid @ModelAttribute("credentials") Credentials credentials,
-            BindingResult credentialsBindingResult,
-            Model model) {
+    public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult userBindingResult, Model model) {
+        // se user ha contenuti validi, memorizza User e le Credentials nel DB
+        this.userValidator.validate(user, userBindingResult);
 
-        // se user e credential hanno entrambi contenuti validi, memorizza User e le
-        // Credentials nel DB
-        if (!userBindingResult.hasErrors() /* && ! credentialsBindingResult.hasErrors() */) {
-            // credentials.setUser(user);
-            credentialsService.saveCredentials(user.getCredentials()/* credentials */);
+        if (!userBindingResult.hasErrors()) {
+            credentialsService.saveCredentials(user.getCredentials());
 
             user.getCredentials().setUser(user);
             userService.saveUser(user);
-            model.addAttribute("user", user);
 
+            model.addAttribute("user", user);
             return "admin/user.html";
         }
-        return "admin/fromNewUser.html";
+        return "admin/formNewUser.html";
     }
 
     @GetMapping(value = "/index")

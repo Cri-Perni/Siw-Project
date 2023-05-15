@@ -31,7 +31,7 @@
                     <span class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                 
                     <div class="file-input form-input column">
-                        <input type="file" th:name="image">
+                        <input type="file" th:name="image" accept="/image*">
                     </div>
                </div>
                

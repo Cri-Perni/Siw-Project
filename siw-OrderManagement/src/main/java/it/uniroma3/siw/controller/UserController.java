@@ -38,7 +38,7 @@ public class UserController {
 		this.credentialsRepository.delete(user.getCredentials());
 		this.userRepository.delete(user);
 
-		model.addAttribute("users", this.userRepository.findAll());
+		model.addAttribute("users", this.userRepository.findUsersByCredentialRole("DEFAULT"));
 		return "admin/removeUser.html";
 	}
 
