@@ -12,13 +12,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
-import it.uniroma3.siw.repository.ItemRepository;
-import it.uniroma3.siw.repository.OrderItemRepository;
-import it.uniroma3.siw.repository.SaleRepository;
-import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.ItemService;
+import it.uniroma3.siw.service.OrderItemService;
+import it.uniroma3.siw.service.SaleService;
 import it.uniroma3.siw.service.UserService;
-import it.uniroma3.siw.validator.CredentialsValidator;
 import it.uniroma3.siw.validator.UserValidator;
 import jakarta.validation.Valid;
 
@@ -29,20 +27,15 @@ public class AuthenticationController {
     private CredentialsService credentialsService;
     @Autowired
     private UserService userService;
-
     @Autowired
-    private UserRepository userRepository;
+    private ItemService itemService;
     @Autowired
-    private ItemRepository itemRepository;
+    private SaleService saleService;
     @Autowired
-    private SaleRepository saleRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-
+    private OrderItemService orderItemService;
     @Autowired
     private UserValidator userValidator;
-    @Autowired
-    private CredentialsValidator credentialsValidator;
+
 
     @GetMapping("/error")
     public String errorPage() {
@@ -87,7 +80,7 @@ public class AuthenticationController {
         } else {
             if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
                 // carica i dati necessari alla managerPage
-                AdminController.loadManagerPageAttributes(model, orderItemRepository, itemRepository, saleRepository);
+                AdminController.loadManagerPageAttributes(model, orderItemService, itemService, saleService);
                 return "admin/adminMenu.html";
             }
         }
@@ -101,7 +94,7 @@ public class AuthenticationController {
         Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
         if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
             // carica i dati necessari alla managerPage
-            AdminController.loadManagerPageAttributes(model, orderItemRepository, itemRepository, saleRepository);
+            AdminController.loadManagerPageAttributes(model, orderItemService, itemService, saleService);
             return "admin/adminMenu.html";
         } else if (credentials.getRole().equals(Credentials.DEFAULT_ROLE)) {
             return "staff/waiterMenu.html";

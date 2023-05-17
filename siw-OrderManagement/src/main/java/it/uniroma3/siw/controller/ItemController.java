@@ -24,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import it.uniroma3.siw.model.Item;
 import it.uniroma3.siw.model.OrderItem;
 import it.uniroma3.siw.repository.ItemRepository;
+import it.uniroma3.siw.service.ItemService;
 import it.uniroma3.siw.validator.ItemValidator;
 import jakarta.validation.Valid;
 
@@ -34,6 +35,8 @@ public class ItemController {
 	ItemRepository itemRepository;
 	@Autowired
 	ItemValidator itemValidator;
+	@Autowired
+	ItemService itemService;
 
 	@GetMapping("/admin/formNewItem")
 	public String formNewItem(Model model) {
@@ -42,17 +45,14 @@ public class ItemController {
 	}
 
 	@PostMapping("/admin/newItem")
-	public String newMovie(@Valid @ModelAttribute("item") Item item,@RequestParam("image") MultipartFile image, BindingResult bindingResult, Model model) {
-		this.itemValidator.validate(item, bindingResult);
-		if (!bindingResult.hasErrors()) {
-			// prova salvtaggio immagine
-			try{
-			String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-			item.setImageString(base64Image);
-			}catch(IOException e){}
+	public String newItem(@Valid @ModelAttribute("item") Item item, @RequestParam("image") MultipartFile image,
+			BindingResult bindingResult, Model model) {
 
-			this.itemRepository.save(item);
-			model.addAttribute("item", item);
+		Item newItem = this.itemService.newItem(item, image, bindingResult);
+
+		if (newItem != null) {
+			// prova salvtaggio immagine
+			model.addAttribute("item", newItem);
 			return "admin/item.html";
 		} else {
 			return "admin/formNewItem.html";
@@ -61,66 +61,50 @@ public class ItemController {
 
 	@GetMapping("/admin/removeItemPage")
 	public String toRemoveItemPage(Model model) {
-		model.addAttribute("items", this.itemRepository.findAll());
+		model.addAttribute("items", this.itemService.findAllItems());
 		return "admin/removeItems.html";
 	}
 
 	@GetMapping("/admin/removeItem/{id}")
 	public String removeItem(@PathVariable("id") Long id, Model model) {
-		Item item = this.itemRepository.findById(id).get();
-
-		// scollega tutte le righe di ordine dalla portata da rimuovere
-		for (OrderItem orderLine : item.getOrder()) {
-			orderLine.setItem(null);
-		}
-
-		this.itemRepository.delete(item);
-
-		model.addAttribute("items", this.itemRepository.findAll());
+		this.itemService.deleteItem(id);
+		model.addAttribute("items", this.itemService.findAllItems());
 		return "admin/removeItems.html";
 	}
 
 	@GetMapping("/admin/items")
 	public String showItems(Model model) {
-		model.addAttribute("items", this.itemRepository.findAll());
+		model.addAttribute("items", this.itemService.findAllItems());
 		return "admin/items.html";
 	}
 
 	@GetMapping("/admin/items/{id}")
 	public String getItem(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("item", this.itemRepository.findById(id).get());
+		model.addAttribute("item", this.itemService.getItem(id));
 		return "admin/item.html";
 	}
 
 	@GetMapping("/admin/editItemPage")
 	public String toEditItem(Model model) {
-		model.addAttribute("items", this.itemRepository.findAll());
+		model.addAttribute("items", this.itemService.findAllItems());
 		return "admin/editItems.html";
 	}
 
 	@GetMapping("/admin/editItem/{id}")
 	public String editItem(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("item", this.itemRepository.findById(id).get());
+		model.addAttribute("item", this.itemService.getItem(id));
 		return "admin/formEditItem.html";
 	}
 
 	@PostMapping("/admin/editItem/{id}")
-	public String saveItemChanges(@PathVariable Long id,@RequestParam("image") MultipartFile image, @Valid @ModelAttribute Item newitem,
+	public String saveItemChanges(@PathVariable Long id, @RequestParam("image") MultipartFile image,
+			@Valid @ModelAttribute Item newitem,
 			BindingResult bindingResult, Model model) {
-		this.itemValidator.validate(newitem, bindingResult);
 
-		if (!bindingResult.hasErrors()) {
-			Item item = this.itemRepository.findById(id).get();
+		Item item = this.itemService.updateItem(id, image, newitem, bindingResult);
 
-			item.setDescription(newitem.getDescription());
-			item.setPrice(newitem.getPrice());
-			
-			try{
-				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-				item.setImageString(base64Image);
-				}catch(IOException e){}
+		if (item != newitem && item!=null) {
 
-			this.itemRepository.save(item);
 			model.addAttribute("item", item);
 			return "admin/item.html";
 		} else {

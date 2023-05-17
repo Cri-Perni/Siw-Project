@@ -20,6 +20,8 @@ import it.uniroma3.siw.repository.ItemRepository;
 import it.uniroma3.siw.repository.OrderItemRepository;
 import it.uniroma3.siw.repository.OrdinationRepository;
 import it.uniroma3.siw.repository.SaleRepository;
+import it.uniroma3.siw.service.ItemService;
+import it.uniroma3.siw.service.OrdinationService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,33 +37,38 @@ public class OrdinationController {
     OrderItemRepository orderItemRepository;
     @Autowired
     SaleRepository saleRepository;
+    @Autowired
+    OrdinationService ordinationService;
+    @Autowired
+    ItemService itemService;
 
     @GetMapping("/cancelOrder/{id}")
     public String cancelOrder(@PathVariable("id") Long id, Model model) {
 
-        Ordination order = this.ordinationRepository.findById(id).get();
+        /*Ordination order = this.ordinationRepository.findById(id).get();
 
         for(OrderItem orderLine: order.getItems()){
             orderLine.getItem().getOrder().remove(orderLine); //scollega la portata dalla riga di ordine
             orderLine.setItem(null); //scollega la riga di ordine dalla portata
             this.orderItemRepository.delete(orderLine); // rimuovi la riga di ordine
         }
-        this.ordinationRepository.delete(order); // rimuovi l'ordine
+        this.ordinationRepository.delete(order); // rimuovi l'ordine*/
+        this.ordinationService.deleteOrder(id);
 
         return "staff/waiterMenu.html";
     }
 
     @GetMapping("/formNewOrder")
     public String formNewOrder(Model model) {
-        Ordination order = new Ordination();
+        /*Ordination order = new Ordination();
 
         order.setTotal((float) 0);
         order.setIsPaid(false);
 
-        this.ordinationRepository.save(order);
+        this.ordinationRepository.save(order);*/
 
-        model.addAttribute("order", order);
-        model.addAttribute("items", this.itemRepository.findAll());
+        model.addAttribute("order", this.ordinationService.initializeOrder());
+        model.addAttribute("items", this.itemService.findAllItems());
         return "staff/formNewOrder.html";
     }
 
@@ -69,7 +76,7 @@ public class OrdinationController {
     public String addItemToOrder(@PathVariable("orderid") Long orderid, @PathVariable("itemid") Long itemid,
             Model model) {
 
-        Ordination order = this.ordinationRepository.findById(orderid).get();
+        /*Ordination order = this.ordinationRepository.findById(orderid).get();
         Item item = this.itemRepository.findById(itemid).get();
 
         // cerca se esiste già un OrderItem per la coppia Order e Item
@@ -98,46 +105,47 @@ public class OrdinationController {
         // Item
         this.orderItemRepository.save(orderItem);
         this.ordinationRepository.save(order);
-        this.itemRepository.save(item);
+        this.itemRepository.save(item);*/
 
         // aggiungi gli elementi alla vista
-        model.addAttribute("order", order);
-        model.addAttribute("items", this.itemRepository.findAll());
+        model.addAttribute("order", this.ordinationService.addItemToOrder(orderid, itemid));
+        model.addAttribute("items", this.itemService.findAllItems());
 
         return "staff/formNewOrder.html";
     }
 
     @PostMapping("/order/{id}")
     public String newOrder(@PathVariable Long id, @ModelAttribute Ordination neworder, Model model) {
-        // ottieni l'ordine a cui aggiungere il numero del tavolo
+       /*  // ottieni l'ordine a cui aggiungere il numero del tavolo
         Ordination order = this.ordinationRepository.findById(id).get();
         // aggiungi il valore tableNumber
         order.setTableNumber(neworder.getTableNumber());
         // rendi le modifiche persistenti
-        this.ordinationRepository.save(order);
+        this.ordinationRepository.save(order);*/
         // aggiungi l'ordine aggiornato alla vista
-        model.addAttribute("order", order);
+        model.addAttribute("order", this.ordinationService.newOrder(id, neworder));
         return "staff/order.html";
     }
 
     @GetMapping("/formPayment")
     public String toFormPayment(Model model) {
         // elimina tutte le righe ordine e gli ordini che fanno riferimento ad un tavolo nullo
-        this.ordinationRepository.deleteAll(this.ordinationRepository.findByTableNumberIsNull());
-         
-        model.addAttribute("orders", this.ordinationRepository.findByIsPaid(false));
+        /*this.ordinationRepository.deleteAll(this.ordinationRepository.findByTableNumberIsNull());
+         this.ordinationRepository.findByIsPaid(false);*/
+        this.ordinationService.deleteAllNullOrders();
+        model.addAttribute("orders", this.ordinationService.getOrdersToPay());
         return "staff/formPayment.html";
     }
 
     @GetMapping("/searchOrders")
     public String searchOrders(Model model, @RequestParam("tableNumber") Integer tableNumber) {
-        model.addAttribute("orders", this.ordinationRepository.findByTableNumberAndIsPaid(tableNumber, false));
+        model.addAttribute("orders",this.ordinationService.findByTableNumberAndIsPaidIsFalse(tableNumber));
         return "staff/formPayment.html";
     }
 
-    @GetMapping("/toPayment/{id}")
-    public String toPayment(@PathVariable("id") Integer id, Model model) {
-        List<Ordination> orders = this.ordinationRepository.findByTableNumberAndIsPaid(id, false);
+    @GetMapping("/toPayment/{tableNumber}")
+    public String toPayment(@PathVariable("tableNumber") Integer tableNumber, Model model) {
+        List<Ordination> orders =(List<Ordination>) this.ordinationService.findByTableNumberAndIsPaidIsFalse(tableNumber);
         List<OrderItem> orderLines = new ArrayList<OrderItem>();
         float total = 0;
 
@@ -148,34 +156,15 @@ public class OrdinationController {
             }
         }
 
-        model.addAttribute("tableNumber", id);
+        model.addAttribute("tableNumber", tableNumber);
         model.addAttribute("total", total);
         model.addAttribute("orderLines", orderLines);
         return "staff/payOrder.html";
     }
 
-    @GetMapping("/payOrder/{id}")
-    public String toPayment(@PathVariable("id") Integer id) {
-
-        Sale sale = new Sale();
-        ArrayList<Ordination> orders = new ArrayList<>();
-
-        float total = 0;
-        this.saleRepository.save(sale);
-
-        for (Ordination order : this.ordinationRepository.findByTableNumberAndIsPaid(id, false)) {
-            order.setIsPaid(true);
-            order.setSale(sale);
-            total += order.getTotal();
-            this.ordinationRepository.save(order);
-            orders.add(order);
-        }
-
-        sale.setDate(LocalDate.now());
-        sale.setTime(LocalTime.now());
-        sale.setTotal(total);
-        sale.setOrders(orders);
-        this.saleRepository.save(sale);
+    @GetMapping("/payOrder/{tableNumber}")
+    public String payOrder(@PathVariable("tableNumber") Integer tableNumber) {
+        this.ordinationService.payOrder(tableNumber);
         return "staff/waiterMenu.html";
     }
 }

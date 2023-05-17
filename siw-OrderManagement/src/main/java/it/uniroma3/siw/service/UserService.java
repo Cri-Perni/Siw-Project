@@ -56,4 +56,14 @@ public class UserService {
             result.add(user);
         return result;
     }
+
+    @Transactional
+    public Iterable<User> getUsersByCredentialRole(String role){
+        return this.userRepository.findUsersByCredentialRole(role);
+    }
+
+    @Transactional
+    public void delete(User user){
+        this.userRepository.delete(user);
+    }
 }
