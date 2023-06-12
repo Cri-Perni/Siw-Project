@@ -28,7 +28,7 @@ public class ItemService {
     }
 
     @Transactional
-    public Item newItem(Item item, MultipartFile image, BindingResult bindingResult) {
+    public Item newItem(Item item, MultipartFile image, BindingResult bindingResult) throws IOException{
         this.itemValidator.validate(item, bindingResult);
         if (!bindingResult.hasErrors()) {
             // prova salvtaggio immagine
@@ -39,8 +39,9 @@ public class ItemService {
             }
 
             this.itemRepository.save(item);
+            return item;
         }
-        return item;
+        else throw new IOException();
 
     }
 
@@ -61,7 +62,7 @@ public class ItemService {
     }
 
     @Transactional
-    public Item updateItem(Long id, MultipartFile image, Item newItem, BindingResult bindingResult) {
+    public Item updateItem(Long id, MultipartFile image, Item newItem, BindingResult bindingResult) throws IOException{
 
         this.itemValidator.validate(newItem, bindingResult);
 
@@ -78,8 +79,7 @@ public class ItemService {
 
             this.itemRepository.save(item);
             return item;
-        }else{
-            return newItem;
         }
+        else throw new IOException();
     }
 }

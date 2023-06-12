@@ -1,15 +1,8 @@
 package it.uniroma3.siw.controller;
 
-import java.io.Console;
 import java.io.IOException;
-import java.util.Base64;
-
-import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,12 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import it.uniroma3.siw.model.Item;
-import it.uniroma3.siw.model.OrderItem;
 import it.uniroma3.siw.repository.ItemRepository;
 import it.uniroma3.siw.service.ItemService;
 import it.uniroma3.siw.validator.ItemValidator;
@@ -47,14 +38,11 @@ public class ItemController {
 	@PostMapping("/admin/newItem")
 	public String newItem(@Valid @ModelAttribute("item") Item item, @RequestParam("image") MultipartFile image,
 			BindingResult bindingResult, Model model) {
-
-		Item newItem = this.itemService.newItem(item, image, bindingResult);
-
-		if (newItem != null) {
+		try{
 			// prova salvtaggio immagine
-			model.addAttribute("item", newItem);
+			model.addAttribute("item", this.itemService.newItem(item, image, bindingResult));
 			return "admin/item.html";
-		} else {
+		} catch(IOException e) {
 			return "admin/formNewItem.html";
 		}
 	}
@@ -100,15 +88,13 @@ public class ItemController {
 	public String saveItemChanges(@PathVariable Long id, @RequestParam("image") MultipartFile image,
 			@Valid @ModelAttribute Item newitem,
 			BindingResult bindingResult, Model model) {
+		try{
 
-		Item item = this.itemService.updateItem(id, image, newitem, bindingResult);
-
-		if (item != newitem && item!=null) {
-
-			model.addAttribute("item", item);
+			model.addAttribute("item", this.itemService.updateItem(id, image, newitem, bindingResult));
 			return "admin/item.html";
-		} else {
-			model.addAttribute("item", newitem);
+		}
+		catch(IOException e) {
+			model.addAttribute("item", this.itemService.getItem(id));
 			return "admin/formEditItem.html";
 		}
 	}
